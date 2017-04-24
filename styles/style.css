@@ -1,0 +1,24 @@
+body {
+  background-color: black;
+  padding: 0 10vw 0 10vw;
+}
+
+#app {
+  flex: auto;
+  background-color: white;
+  height: 1000px;
+}
+
+button {
+  height: 35px;
+  width: 35px;
+  background-color: #123;
+  color: white;
+  border-radius: 3px;
+  border: 2px solid black;
+}
+
+button:hover {
+  background-color: #9AB;
+  border-color: #9AB;
+}
