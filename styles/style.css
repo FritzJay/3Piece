@@ -21,6 +21,18 @@ body {
   transition: all 0.25s ease;
 }
 
+#drummer:hover {
+  height: 300px;
+  width: 300px;
+  background-color: yellow;
+}
+
+#drummer:active {
+  height: 500px;
+  width: 500px;
+  background-color: green;
+}
+
 button {
   height: 35px;
   width: 35px;

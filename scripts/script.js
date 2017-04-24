@@ -34,9 +34,18 @@ function removePlaying(e) {
   button.removeEventListener('transitionend', removePlaying);
 }
 
-// Add event listeners
-//Drums
+function toggleActive(e) {
+  // get div of character soon to be set to active
+  const div = e.srcElement;
+}
+
+// Event Listeners
+// Drums
 drumKeys.forEach(key => key.addEventListener('click', playSound));
 
-//Listen for any key press
+// Guitar
+
+// Bass
+
+// Listen for any key press
 window.addEventListener('keypress', playSound);
