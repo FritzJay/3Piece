@@ -26,7 +26,7 @@ function playSound(e) {
     return;
   }
   // Get audio with corresponding data-key
-  let audio = document.querySelector(`audio[data-key="${button.dataset.key}"]`)
+  let audio = instrument.querySelector(`audio[data-key="${button.dataset.key}"]`)
   // FROM THE TOP (reset audio.currentTime to 0. This allows us to play sounds quicker)
   audio.currentTime = 0;
   // play audio
