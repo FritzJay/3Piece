@@ -49,14 +49,18 @@ function toggleActive(e) {
   // toggle active class on or off, add or remove eventListeners
   if (div.classList.contains('active')) {
     div.classList.remove('active');
-    keys.classList.remove('active');
-    keys.removeEventListener('click', playSound);
     div.removeEventListener('keypress', playSound);
+    if (keys) {
+      keys.classList.remove('active');
+      keys.removeEventListener('click', playSound);
+    }
   } else {
     div.classList.add('active');
-    keys.classList.add('active');
-    keys.addEventListener('click', playSound);
     div.addEventListener('keypress', playSound);
+    if (keys) {
+      keys.classList.add('active');
+      keys.addEventListener('click', playSound);
+    }
   }
 }
 
