@@ -4,6 +4,12 @@ const drumKeys = drums.querySelectorAll('button');
 const guitar = document.getElementById('guitar');
 const bass = document.getElementById('bass');
 
+// Flags
+let isRecording = false;
+let isDrums = false;
+let isGuitar = false;
+let isBass = false;
+
 function playSound(e) {
   // Get button. Adjusted the querySelector depending on event type
   let button = (e.type != 'keypress') ? e.srcElement : document.querySelector(`button[data-key="${e.keyCode}"]`);

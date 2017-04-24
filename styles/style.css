@@ -9,6 +9,11 @@ body {
   height: 1000px;
 }
 
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
 button {
   height: 35px;
   width: 35px;
