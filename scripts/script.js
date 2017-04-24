@@ -9,6 +9,8 @@ function playSound(e) {
   let button = (e.type != 'keypress') ? e.srcElement : document.querySelector(`button[data-key="${e.keyCode}"]`);
   // Get audio with corresponding data-key
   let audio = document.querySelector(`audio[data-key="${button.dataset.key}"]`)
+  // FROM THE TOP (reset audio.currentTime to 0. This allows us to play sounds quicker)
+  audio.currentTime = 0;
   // play audio
   audio.play();
   // start button transition via css
