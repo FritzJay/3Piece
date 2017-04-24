@@ -1,6 +1,6 @@
 // Set consts
-const drums = document.getElementById('drums');
-const drumKeys = drums.querySelectorAll('button');
+const drummer = document.getElementById('drummer');
+const drumKeys = drummer.querySelectorAll('button');
 const guitar = document.getElementById('guitar');
 const bass = document.getElementById('bass');
 
@@ -35,13 +35,32 @@ function removePlaying(e) {
 }
 
 function toggleActive(e) {
+  console.log('activating');
   // get div of character soon to be set to active
   const div = e.srcElement;
+  console.log(div);
+  // if div contains .keys return
+  if (div.classList.contains('keys')) {
+    return;
+  }
+
+  // get keys of character soon to be set to active
+  const keys = div.querySelector('.keys');
+  console.log(keys);
+  // toggle active class on or off
+  if (div.classList.contains('active')) {
+    div.classList.remove('active');
+    keys.classList.remove('active');
+  } else {
+    div.classList.add('active');
+    keys.classList.add('active');
+  }
 }
 
 // Event Listeners
 // Drums
-drumKeys.forEach(key => key.addEventListener('click', playSound));
+drumKeys.forEach(key => key.addEventListener('click', playSound));  // Listen for drumKeys to be pressed
+drummer.addEventListener('click', toggleActive);  // Listen for drummer to be clicked
 
 // Guitar
 

@@ -9,9 +9,18 @@ body {
   height: 1000px;
 }
 
-#drums {
-  margin: auto;
-  transition: all 0.5s ease;
+.keys {
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  transition: all 0.25s ease;
+}
+
+.keys.active {
+  opacity: 1.0;
+  visibility: visible;
 }
 
 #drummer {
@@ -27,7 +36,7 @@ body {
   background-color: yellow;
 }
 
-#drummer:active {
+#drummer.active {
   height: 500px;
   width: 500px;
   background-color: green;
