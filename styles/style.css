@@ -13,6 +13,7 @@ body {
   opacity: 0;
   visibility: hidden;
   display: flex;
+  flex: auto;
   flex-direction: row;
   justify-content: space-between;
   transition: all 0.25s ease;
