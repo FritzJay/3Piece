@@ -30,6 +30,8 @@ body {
   flex: auto;
   align-self: center;
   margin-top: 20px;
+  height: 250px;
+  width: 250px;
 }
 
 .instrument {
@@ -37,7 +39,7 @@ body {
   flex-flow: column nowrap;
   justify-content: space-between;
   flex: 0 1 30%;
-  padding: 0 25px 0 25px;
+  padding: 25px;
   margin: 50px;
   background-color: black;
   transition: all 0.25s ease;
@@ -59,7 +61,6 @@ body {
 }
 
 button {
-  margin-top: 25px;
   height: 47px;
   width: 47px;
   background-color: #123;
