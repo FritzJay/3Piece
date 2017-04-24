@@ -2,14 +2,21 @@
 const drums = document.getElementById('drums');
 const guitar = document.getElementById('guitar');
 const bass = document.getElementById('bass');
+const instruments = [drums, guitar, bass];
 
 // Flags
 let isRecording = false;
 
 function playSound(e) {
-  console.log('playSound');
+  // Find active instrument
+  const instrument = instruments.find((inst) => {
+    if (inst.classList.contains('active')) {
+      return inst;
+    };
+  });
+
   // Get button. Adjusted the querySelector depending on event type
-  let button = (e.type != 'keypress') ? e.srcElement : document.querySelector(`button[data-key="${e.keyCode}"]`);
+  let button = (e.type != 'keypress') ? e.srcElement : instrument.querySelector(`button[data-key="${e.keyCode}"]`);
   console.log(button);
   //Return if button is null or isn't active
   if (!button) {
@@ -68,10 +75,8 @@ function toggleActive(e) {
 }
 
 // Event Listeners
-// Drums
-drums.addEventListener('click', toggleActive);  // Listen for drummer to be clicked
+drums.addEventListener('click', toggleActive);  // Listen for drums to be clicked
+guitar.addEventListener('click', toggleActive);  // Listen for guitar to be clicked
+bass.addEventListener('click', toggleActive);  // Listen for bass to be clicked
 
-// Guitar
-
-// Bass
 window.addEventListener('keypress', playSound);

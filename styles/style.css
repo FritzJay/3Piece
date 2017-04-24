@@ -80,7 +80,6 @@ button:hover {
 }
 
 button.playing {
-  margin-top: 20px;
   height: 57px;
   width: 57px;
   background-color: #AAA;
