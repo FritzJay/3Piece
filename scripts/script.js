@@ -12,7 +12,18 @@ function playSound(e) {
   // play audio
   audio.play();
   // start button transition via css
-  button.className += 'playing';
+  button.classList.add('playing');
+  //listen for button css transition end
+  button.addEventListener('transitionend', removePlaying);
+}
+
+function removePlaying(e) {
+  // get button element
+  const button = e.srcElement;
+  // remove playing class from button
+  button.classList.remove('playing');
+  // remove event listener from button
+  button.removeEventListener('transitionend', removePlaying);
 }
 
 function removeTransition(e) {
