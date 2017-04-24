@@ -1,5 +1,5 @@
 // Set consts
-const drummer = document.getElementById('drummer');
+const drums = document.getElementById('drums');
 const guitar = document.getElementById('guitar');
 const bass = document.getElementById('bass');
 
@@ -69,7 +69,7 @@ function toggleActive(e) {
 
 // Event Listeners
 // Drums
-drummer.addEventListener('click', toggleActive);  // Listen for drummer to be clicked
+drums.addEventListener('click', toggleActive);  // Listen for drummer to be clicked
 
 // Guitar
 
