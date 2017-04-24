@@ -26,10 +26,6 @@ function removePlaying(e) {
   button.removeEventListener('transitionend', removePlaying);
 }
 
-function removeTransition(e) {
-
-}
-
 // Add event listeners
 //Drums
 drumKeys.forEach(key => key.addEventListener('click', playSound));
