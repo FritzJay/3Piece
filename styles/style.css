@@ -26,6 +26,7 @@ body {
 #drummer {
   height: 250px;
   width: 250px;
+  padding: 0 25px 0 25px;
   background-color: black;
   transition: all 0.25s ease;
 }
@@ -43,8 +44,9 @@ body {
 }
 
 button {
-  height: 35px;
-  width: 35px;
+  margin-top: 25px;
+  height: 47px;
+  width: 47px;
   background-color: #123;
   color: white;
   border-radius: 3px;
@@ -58,11 +60,12 @@ button:hover {
 }
 
 button.playing {
-  height: 38px;
-  width: 38px;
+  margin-top: 20px;
+  height: 57px;
+  width: 57px;
   background-color: #AAA;
   border-color: #AAA;
-  color:  black;
+  color: black;
 }
 
 /* ------------- Utilities ---------------*/
@@ -77,8 +80,4 @@ button.playing {
   flex-direction: column;
   justify-content: center;
   margin: auto;
-}
-
-.hidden {
-  display: hidden;
 }
