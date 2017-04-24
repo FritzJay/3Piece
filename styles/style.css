@@ -26,8 +26,17 @@ body {
   visibility: visible;
 }
 
+.instrument img {
+  flex: auto;
+  align-self: center;
+  margin-top: 20px;
+}
+
 .instrument {
-  flex: 1 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  flex: 1;
   padding: 0 25px 0 25px;
   margin: 50px;
   background-color: black;
@@ -37,10 +46,14 @@ body {
 .instrument:hover {
   background-color: yellow;
 }
+
 .instrument.active {
   background-color: green;
 }
 
+#drums {
+  flex: 1 1 100%;
+}
 /* ------------- DRUMS --------------
 #drums {
   flex: 1 100% 100%;
