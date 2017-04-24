@@ -10,11 +10,13 @@ function playSound(e) {
   console.log('playSound');
   // Get button. Adjusted the querySelector depending on event type
   let button = (e.type != 'keypress') ? e.srcElement : document.querySelector(`button[data-key="${e.keyCode}"]`);
-
+  console.log(button);
   //Return if button is null or isn't active
   if (!button) {
     return;
-    if (!button.classList.contains('active')) return;
+  } else if (!button.parentElement.classList.contains('active'))
+  {
+    return;
   }
   // Get audio with corresponding data-key
   let audio = document.querySelector(`audio[data-key="${button.dataset.key}"]`)
@@ -46,6 +48,7 @@ function toggleActive(e) {
   }
   // get keys of character soon to be set to active
   const keys = div.querySelector('.keys');
+  console.log(keys);
   // toggle active class on or off, add or remove eventListeners
   if (div.classList.contains('active')) {
     div.classList.remove('active');
