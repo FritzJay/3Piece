@@ -9,27 +9,16 @@ body {
   height: 1000px;
 }
 
-.row {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: auto;
-}
-
 #drums {
   margin: auto;
+  transition: all 0.5s ease;
 }
 
 #drummer {
   height: 250px;
   width: 250px;
   background-color: black;
+  transition: all 0.25s ease;
 }
 
 button {
@@ -53,4 +42,22 @@ button.playing {
   background-color: #AAA;
   border-color: #AAA;
   color:  black;
+}
+
+/* ------------- Utilities ---------------*/
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+
+.hidden {
+  display: hidden;
 }
