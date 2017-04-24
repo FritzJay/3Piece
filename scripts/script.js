@@ -11,8 +11,8 @@ function playSound(e) {
   let audio = document.querySelector(`audio[data-key="${button.dataset.key}"]`)
   // play audio
   audio.play();
-  // start button transition
-  
+  // start button transition via css
+  button.className += 'playing';
 }
 
 function removeTransition(e) {

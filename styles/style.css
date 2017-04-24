@@ -16,9 +16,18 @@ button {
   color: white;
   border-radius: 3px;
   border: 2px solid black;
+  transition: all 0.1s ease;
 }
 
 button:hover {
   background-color: #9AB;
   border-color: #9AB;
+}
+
+button.playing {
+  height: 38px;
+  width: 38px;
+  background-color: #AAA;
+  border-color: #AAA;
+  color:  black;
 }
