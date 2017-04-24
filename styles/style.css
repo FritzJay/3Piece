@@ -15,8 +15,21 @@ body {
   justify-content: space-between;
 }
 
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: auto;
+}
+
 #drums {
   margin: auto;
+}
+
+#drummer {
+  height: 250px;
+  width: 250px;
+  background-color: black;
 }
 
 button {
