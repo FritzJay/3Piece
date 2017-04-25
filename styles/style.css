@@ -37,6 +37,15 @@ button:hover {
 
 button:active {
   opacity: 0.54;
+  transform: translateY(2px);
+}
+
+button.active {
+  height: 57px;
+  width: 57px;
+  background-color: #AAA;
+  border-color: #AAA;
+  color: black;
 }
 
 /* ------------------- Instruments --------------------- */
@@ -96,13 +105,6 @@ button:active {
   transform: scale(1.25);
 }
 
-button.active {
-  height: 57px;
-  width: 57px;
-  background-color: #AAA;
-  border-color: #AAA;
-  color: black;
-}
 
 .save {
   display: flex;
@@ -150,13 +152,17 @@ button.active {
   flex: 0 1 auto;
   width: 40px;
   height: 40px;
-  margin-left: 15px;
+  margin-left: 30px;
   border-radius: 50%;
   background-color: #1a1516;
 }
 
 .record-btn.active {
+  width: 55px;
+  height: 55px;
+  color: white;
   background-color: red;
+  font-weight: bold;
 }
 
 /* ---------------- Welcome Screen ------------------- */

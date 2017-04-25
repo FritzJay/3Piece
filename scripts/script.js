@@ -67,7 +67,7 @@ function removeActiveButton (e) {
   const element = e.srcElement;
   // remove playing class from element
   element.classList.remove('active');
-  // remove event listener from element
+  // Remove event listener to prevent event from being fired multiple times
   element.removeEventListener('transitionend', removeActiveButton);
 }
 
@@ -197,30 +197,54 @@ function playRecording (recording) {
 function handleSaveClick (e) {
   console.log('Saving ' + e.srcElement.parentElement);
   const saveText = e.srcElement.parentElement.querySelector('.save-text');
-  if (drumsRecording.length > 0) {
-    console.log(drumsRecording);
+
+  let recordingType;
+  let localStorageType;
+  // Get recording type
+  switch (e.srcElement.parentElement.parentElement.id) {
+    case 'drums':
+      recordingType = drumsRecording;
+      localStorageType = 'drumsRecording';
+      break;
+    case 'guitar':
+      recordingType = guitarRecording;
+      localStorageType = 'guitarRecording';
+      break;
+    case 'bass':
+      recordingType = bassRecording;
+      localStorageType = 'bassRecording';
+      break;
+    default:
+      console.log('Error: Incorrect recording type in handleSaveClick');
+      break;
+  }
+
+  // If recording exists, save it to localStorage as JSON
+  if (recordingType.length > 0) {
+    console.log(recordingType);
     if (typeof(Storage) !== 'undefined') {
 
       //Save recording as a JSON object in order to parse correctly later
       let recording = '['
-      drumsRecording.forEach(node => {
+      recordingType.forEach(node => {
         recording += `{ "button":"${node.button}" , "timestamp":"${node.timestamp}" , "start":"${node.start}" },`
       });
       recording = recording.substring(0, recording.length - 1);    // Take off last comma so it doesn't effect json.parse
       recording += ' ]';
-      localStorage.drumsRecording = recording;
-      console.log(localStorage.drumsRecording);
+      localStorage[localStorageType] = recording;
 
+      // Display save message
       saveText.innerHtml = 'Saved.';
       saveText.classList.add('active');
-      saveText.addEventListener('transitionend', removeActive);
+      saveText.addEventListener('transitionend', removeActiveButton);
     } else {
       console.log('Storage isn\'t supported');
     }
   } else {
+    // Display save message
     saveText.innerHTML = 'You haven\'t recorded anything yet';
     saveText.classList.add('active');
-    saveText.addEventListener('transitionend', removeActive);
+    saveText.addEventListener('transitionend', removeActiveButton);
   }
 }
 
