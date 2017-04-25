@@ -81,6 +81,8 @@ function toggleActive(e) {
   const keys = div.querySelector('.keys');
   // Get saveButton of div
   const saveButton = div.querySelector('.save-btn');
+  // Get saveText of div
+  const saveText = div.querySelector('.save-text');
   // toggle active class on or off, add or remove eventListeners
   if (div.classList.contains('active')) {
     isActive = false;

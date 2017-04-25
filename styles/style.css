@@ -95,14 +95,29 @@ button.playing {
   background-color: red;
 }
 
+.save {
+  display: flex;
+  flex-basis: row nowrap;
+  align-items: center;
+}
+
 .save-btn {
-  flex: auto;
-  align-self: center;
+  flex: 1;
   display: none;
 }
 
 .save-btn.active {
   display: flex;
+}
+
+.save-text {
+  margin-left: 15px;
+  flex: 3;
+  visibility: hidden;
+}
+
+.save-text.active {
+    visibility: visible;
 }
 
 /* ---------------- Welcome Screen ------------------- */
