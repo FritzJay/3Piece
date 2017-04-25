@@ -4,10 +4,10 @@ const guitar = document.getElementById('guitar');
 const bass = document.getElementById('bass');
 const instruments = [drums, guitar, bass];
 const welcomeButton = document.getElementById('welcome-btn');
+const forgetButton = document.getElementById('forget-btn');
 
 //Flags
 let isActive = false;   // Used to determine if playSound should run
-
 
 // ----------------------- APP FUNCTIONS ----------------------- /*
 function playSound(e) {
@@ -86,16 +86,39 @@ function toggleActive(e) {
 }
 
 // ---------------------------- WELCOME FUNCTIONS -------------------------- //
-function handleWelcome () {
+function welcome () {
+  if (typeof(Storage) !== 'undefined') {
+    if (localStorage.username) {
+
+    } else {
+
+    }
+  } else {
+    console.log('No storage support!');
+  }
+}
+
+function handleWelcomeClick () {
   if (typeof(Storage) !== 'undefined') {
     const username = document.getElementById('username');
-    sessionStorage.username = username;
+    localStorage.username = username;
     console.log(sessionStorage.username);
   } else {
     console.log('No storage support!');
   }
 }
 
+function handleForgetClick () {
+  if (typeof(Storage) !== 'undefined') {
+    if (!localStorage.username) {
+      return;
+    }
+    localStorage.removeItem('username');
+  } else {
+    console.log('No storage support!');
+  }
+}
+window.onLoad(welcome);
 // Event Listeners
 drums.addEventListener('click', toggleActive);    // Listen for drums to be clicked
 guitar.addEventListener('click', toggleActive);   // Listen for guitar to be clicked
@@ -103,4 +126,5 @@ bass.addEventListener('click', toggleActive);     // Listen for bass to be click
 window.addEventListener('keypress', playSound);   // Listen for ANY key to be pressed
 
 // Welcome screen event Listeners
-welcomeButton.addEventListener('click', handleWelcome);   // Listen for welcome button to be pressed
+welcomeButton.addEventListener('click', handleWelcomeClick);   // Listen for welcome button to be pressed
+forgetButton.addEventListener('click', handleForgetClick);     // Listen for forgetButton to be clicked
