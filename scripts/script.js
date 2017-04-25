@@ -1,3 +1,6 @@
+/* eslint semi: [0, "never"] */
+/* eslint-env browser */
+
 // Instruments
 const drums = document.getElementById('drums');       // Drums container
 const drummer = drums.querySelector('img');           // Drummer image
@@ -22,11 +25,11 @@ let bassRecording = [];
 const welcomeScreen = document.getElementById('welcome');             // Welcome screen container
 const welcomeMessage = document.getElementById('welcome-message');    // Welcome message
 const welcomeButton = document.getElementById('welcome-btn');         // 'Let's Rock!' button
-const forgetButton = document.getElementById('forget-btn');1          // 'Forget about me' button
+const forgetButton = document.getElementById('forget-btn');          // 'Forget about me' button
 
 // ----------------------- APP ----------------------- /*
-function playSound(e) {
-  //Return if there are no active instruments
+function playSound (e) {
+  // Return if there are no active instruments
   if (!isActive) {
     return;
   }
@@ -37,8 +40,8 @@ function playSound(e) {
     };
   });
   // Get button. Adjust the querySelector depending on event type
-  let button = (e.type != 'keypress') ? e.srcElement : instrument.querySelector(`button[data-key="${e.keyCode}"]`);
-  //Return if button is null or isn't active
+  let button = (e.type !== 'keypress') ? e.srcElement : instrument.querySelector(`button[data-key="${e.keyCode}"]`);
+  // Return if button is null or isn't active
   if (!button) {
     return;
   } else if (!button.parentElement.classList.contains('active')) {
@@ -57,7 +60,7 @@ function playSound(e) {
   audio.play();
   // start button transition via css
   button.classList.add('active');
-  //listen for button css transition end
+  // listen for button css transition end
   button.addEventListener('transitionend', removeActiveButton);
 }
 
@@ -74,7 +77,7 @@ function removeActiveButton (e) {
 function removeActiveInstrument (element, keys, saveButton, saveText) {
   console.log('hello from removeActive (element, keys...)');
   // Instrument active removal
-  //Remove .actives and eventListeners
+  // Remove .actives and eventListeners
   element.classList.remove('active');
   element.removeEventListener('keypress', playSound);
   // If save button exist remove class from it
@@ -88,7 +91,7 @@ function removeActiveInstrument (element, keys, saveButton, saveText) {
   }
 }
 
-function toggleActive(e) {
+function toggleActive (e) {
   // get div of instrument soon to be set to active
   const element = e.srcElement.parentElement;
   // Get keys of element
@@ -126,8 +129,8 @@ function toggleActive(e) {
 // ---------------------------- RECORDING ------------------------ //
 // RecordNode holds the button and timestamp info
 // I'll use this to determine when to play what during playback
-class recordNode {
-  constructor(button, timestamp) {
+class RecordNode {
+  constructor (button, timestamp) {
     this.button = button;
     this.timestamp = timestamp;
     this.start = startRecording;
@@ -137,7 +140,7 @@ class recordNode {
 // Saves each event as a recordNode and pushes it to the apporpriate recording array
 function record (instrument, button, timestamp) {
   const instrumentId = instrument.id;
-  const node = new recordNode(button.dataset.key, timestamp);
+  const node = new RecordNode(button.dataset.key, timestamp);
 
   switch (instrumentId) {
     case 'drums':
@@ -169,28 +172,25 @@ function handleRecordClick () {
 
 // Check's if anything is stored in localStorage and plays it if it is.
 function handlePlayClick () {
-  if (typeof(Storage) !== 'undefined') {                        // If localStorage is accessable
+  if (typeof (Storage) !== 'undefined') {                        // If localStorage is accessable
     // Check for Drums
     if (localStorage.drumsRecording) {                          // If there is a recording saved in localStorage
       playRecording(JSON.parse(localStorage.drumsRecording), 'drums');   // Parse the storage and send it to playRecording
-    }
-    else if (drumsRecording.length > 0) {
+    } else if (drumsRecording.length > 0) {
       playRecording(drumsRecording, 'drums');                            // If there is a recording in memory play that
     }
 
-    //Check for guitar
+    // Check for guitar
     if (localStorage.guitarRecording) {                          // If there is a recording saved in localStorage
       playRecording(JSON.parse(localStorage.guitarRecording), 'guitar');   // Parse the storage and send it to playRecording
-    }
-    else if (guitarRecording.length > 0) {
+    } else if (guitarRecording.length > 0) {
       playRecording(guitarRecording, 'guitar');                            // If there is a recording in memory play that
     }
 
-    //Check for bass
+    // Check for bass
     if (localStorage.bassRecording) {                          // If there is a recording saved in localStorage
       playRecording(JSON.parse(localStorage.bassRecording), 'bass');   // Parse the storage and send it to playRecording
-    }
-    else if (bassRecording.length > 0) {
+    } else if (bassRecording.length > 0) {
       playRecording(guitarRecording, 'bass');                            // If there is a recording in memory play that
     }
   } else {
@@ -204,7 +204,7 @@ function playRecording (recording, type) {
   let element = document.getElementById(type);
   // Set a timeout for each node of the recording array
   recording.forEach(node => {
-    setTimeout(function() {
+    setTimeout(function () {
       let audio = element.querySelector(`audio[data-key="${node.button}"]`)
       // Reset audio.currentTime to 0. This allows us to play sounds without waiting for currently playing sound to end
       audio.currentTime = 0;
@@ -241,10 +241,8 @@ function handleSaveClick (e) {
 
   // If recording exists, save it to localStorage as JSON
   if (recordingType.length > 0) {
-    console.log(recordingType);
-    if (typeof(Storage) !== 'undefined') {
-
-      //Save recording as a JSON object in order to parse correctly later
+    if (typeof (Storage) !== 'undefined') {
+      // Save recording as a JSON object in order to parse correctly later
       let recording = '['
       recordingType.forEach(node => {
         recording += `{ "button":"${node.button}" , "timestamp":"${node.timestamp}" , "start":"${node.start}" },`
@@ -270,7 +268,7 @@ function handleSaveClick (e) {
 
 // Removes username from localStorage
 function handleForgetClick () {
-  if (typeof(Storage) !== 'undefined') {
+  if (typeof (Storage) !== 'undefined') {
     if (!localStorage.username) {
       return;
     }
@@ -286,7 +284,7 @@ function handleForgetClick () {
 // ---------------------------- WELCOME -------------------------- //
 
 function welcome () {
-  if (typeof(Storage) !== 'undefined') {
+  if (typeof (Storage) !== 'undefined') {
     // If username is already stored
     if (localStorage.username) {
       welcomeScreen.classList.remove('active');                           // Don't display welcome screen
@@ -302,7 +300,7 @@ function welcome () {
 
 // Gets username from form and saves it in localStorage.username
 function handleWelcomeClick () {
-  if (typeof(Storage) !== 'undefined') {
+  if (typeof (Storage) !== 'undefined') {
     const username = document.getElementById('username').value;
     localStorage.username = username;
   } else {
