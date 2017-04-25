@@ -82,6 +82,19 @@ button.playing {
   color: black;
 }
 
+/* ---------------- Recording --------------------- */
+
+#record-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: black;
+}
+
+#record-btn.active {
+  background-color: red;
+}
+
 /* ---------------- Welcome Screen ------------------- */
 #welcome.active {
   display: flex;

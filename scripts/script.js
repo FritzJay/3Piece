@@ -5,13 +5,21 @@ const bass = document.getElementById('bass');         // Bass container
 const instruments = [drums, guitar, bass];            // Allows me to cycle through instruments to see which one is active
 let isActive = false;                                 // Stop playSound from running if there are no active instruments
 
+// Recording
+const recordButton = document.getElementById('record-btn');
+let isRecording = false;
+let startRecording = Date.now();
+let drumsRecording = [];
+let guitarRecording = [];
+let bassRecording = [];
+
 // Welcome
 const welcomeScreen = document.getElementById('welcome');             // Welcome screen container
 const welcomeMessage = document.getElementById('welcome-message');    // Welcome message
 const welcomeButton = document.getElementById('welcome-btn');         // 'Let's Rock!' button
 const forgetButton = document.getElementById('forget-btn');1          // 'Forget about me' button
 
-// ----------------------- APP FUNCTIONS ----------------------- /*
+// ----------------------- APP ----------------------- /*
 function playSound(e) {
 
   //Return if there are no active instruments
@@ -32,6 +40,11 @@ function playSound(e) {
   } else if (!button.parentElement.classList.contains('active')) {
     return;
   }
+  // If isRecording, send button and timestamp data to record()
+  if (isRecording) {
+    record(instrument.id, button, Date.now());
+  }
+
   // Get audio with corresponding data-key
   let audio = instrument.querySelector(`audio[data-key="${button.dataset.key}"]`)
   // Reset audio.currentTime to 0. This allows us to play sounds without waiting for currently playing sound to end
@@ -85,7 +98,48 @@ function toggleActive(e) {
   }
 }
 
-// ---------------------------- WELCOME FUNCTIONS -------------------------- //
+// ---------------------------- RECORDING ------------------------ //
+// RecordNode holds the button and timestamp info
+// I'll use this to determine when to play what during playback
+class recordNode {
+  constructor(button, timestamp) {
+    this.button = button;
+    this.timestamp = timestamp;
+  }
+}
+
+function record (instrument, button, timestamp) {
+  console.log(instrument);
+  const node = new recordNode(button, timestamp);
+
+  switch (instrument) {
+    case 'drums':
+      drumsRecording.push(node);
+      break;
+    case 'guitar':
+      guitarRecording.push(node);
+      break;
+    case 'bass':
+      bassRecording.push(node);
+      break;
+    default:
+      console.log('Error: Incorrect instrument was send to record()');
+      break;
+  }
+}
+
+function handleRecordClick () {
+  if (isRecording) {
+    recordButton.classList.remove('active');
+    isRecording = false;
+    return;
+  }
+  recordButton.classList.add('active');
+  startRecording = Date.now();
+  isRecording = true;
+}
+
+// ---------------------------- WELCOME -------------------------- //
 function welcome () {
   if (typeof(Storage) !== 'undefined') {
     // If username is already stored
@@ -122,11 +176,14 @@ function handleForgetClick () {
     console.log('No storage support!');
   }
 }
-// Event Listeners
+// App event Listeners
 drums.addEventListener('click', toggleActive);    // Listen for drums to be clicked
 guitar.addEventListener('click', toggleActive);   // Listen for guitar to be clicked
 bass.addEventListener('click', toggleActive);     // Listen for bass to be clicked
 window.addEventListener('keypress', playSound);   // Listen for ANY key to be pressed
+
+// Recording event listeners
+recordButton.addEventListener('click', handleRecordClick);
 
 // Welcome screen event Listeners
 welcomeButton.addEventListener('click', handleWelcomeClick);   // Listen for welcome button to be pressed
