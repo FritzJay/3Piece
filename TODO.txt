@@ -1,0 +1,2 @@
+Allow users to play more than just drum recordings
+Set all other instruments to inactive when one is clicked

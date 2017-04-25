@@ -118,9 +118,9 @@ class recordNode {
   }
 }
 
+// Saves each event as a recordNode and pushes it to the apporpriate recording array
 function record (instrument, button, timestamp) {
   const instrumentId = instrument.id;
-  console.log(button);
   const node = new recordNode(button.dataset.key, timestamp);
 
   switch (instrumentId) {
@@ -139,6 +139,7 @@ function record (instrument, button, timestamp) {
   }
 }
 
+// Toggles isRecording and active class on button
 function handleRecordClick () {
   if (isRecording) {
     recordButton.classList.remove('active');
@@ -150,11 +151,11 @@ function handleRecordClick () {
   isRecording = true;
 }
 
-function handlePlayClick () {
-  if (typeof(Storage) !== 'undefined') {
-    if (localStorage.drumsRecording) {
-      console.log(localStorage.drumsRecording);
-      playRecording(JSON.parse(localStorage.drumsRecording));
+// Check's if anything is stored in localStorage and plays it if it is.
+function handlePlayClick (e) {
+  if (typeof(Storage) !== 'undefined') {                        // If localStorage is accessable
+    if (localStorage.drumsRecording) {                          // If there is a recording saved in localStorage
+      playRecording(JSON.parse(localStorage.drumsRecording));   // Parse the storage and send it to playRecording
     }
     else if (drumsRecording.length > 0) {
       playRecording(drumsRecording);
@@ -164,8 +165,8 @@ function handlePlayClick () {
   }
 }
 
+// Set's a timeout for each node so that it plays at the correct time and plays it
 function playRecording (recording) {
-  console.log(recording);
   recording.forEach(node => {
     setTimeout(function() {
       let audio = drums.querySelector(`audio[data-key="${node.button}"]`)
