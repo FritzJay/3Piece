@@ -2,4 +2,4 @@ Allow users to play more than just drum recordings
 
 change name in welcome message to different font
 
-save text doesn't fade out 
+make forget about me display warning message and reload page
