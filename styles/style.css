@@ -95,6 +95,16 @@ button.playing {
   background-color: red;
 }
 
+.save-btn {
+  flex: auto;
+  align-self: center;
+  display: none;
+}
+
+.save-btn.active {
+  display: flex;
+}
+
 /* ---------------- Welcome Screen ------------------- */
 #welcome.active {
   display: flex;

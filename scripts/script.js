@@ -1,7 +1,10 @@
 // Instruments
 const drums = document.getElementById('drums');       // Drums container
+const drummer = drums.querySelector('img');           // Drummer image
 const guitar = document.getElementById('guitar');     // Guitar container
+const guitarist = guitar.querySelector('img');        // Guitarist image
 const bass = document.getElementById('bass');         // Bass container
+const bassist = bass.querySelector('img');            // Bassist image
 const instruments = [drums, guitar, bass];            // Allows me to cycle through instruments to see which one is active
 let isActive = false;                                 // Stop playSound from running if there are no active instruments
 
@@ -69,19 +72,21 @@ function removePlaying(e) {
 
 function toggleActive(e) {
   // get div of character soon to be set to active
-  const div = e.srcElement;
+  const div = e.srcElement.parentElement;
   // if div contains .keys return
   if (div.classList.contains('keys')) {
     return;
   }
-  // get keys of character soon to be set to active
+  // Get keys of div
   const keys = div.querySelector('.keys');
-  console.log(keys);
+  // Get saveButton of div
+  const saveButton = div.querySelector('.save-btn');
   // toggle active class on or off, add or remove eventListeners
   if (div.classList.contains('active')) {
     isActive = false;
     div.classList.remove('active');
     div.removeEventListener('keypress', playSound);
+    saveButton.classList.remove('active');
     // If keys exist remove class and event listener from keys
     if (keys) {
       keys.classList.remove('active');
@@ -91,6 +96,7 @@ function toggleActive(e) {
     isActive = true;
     div.classList.add('active');
     div.addEventListener('keypress', playSound);
+    saveButton.classList.add('active');
     // If keys exist add class and event listener from keys
     if (keys) {
       keys.classList.add('active');
@@ -125,7 +131,7 @@ function record (instrument, button, timestamp) {
       bassRecording.push(node);
       break;
     default:
-      console.log('Error: Incorrect instrument was send to record()');
+      console.log('Error: Incorrect instrument was sent to record()');
       break;
   }
 }
@@ -196,9 +202,9 @@ function handleForgetClick () {
   }
 }
 // App event Listeners
-drums.addEventListener('click', toggleActive);    // Listen for drums to be clicked
-guitar.addEventListener('click', toggleActive);   // Listen for guitar to be clicked
-bass.addEventListener('click', toggleActive);     // Listen for bass to be clicked
+drummer.addEventListener('click', toggleActive);    // Listen for drums to be clicked
+guitarist.addEventListener('click', toggleActive);   // Listen for guitar to be clicked
+bassist.addEventListener('click', toggleActive);     // Listen for bass to be clicked
 window.addEventListener('keypress', playSound);   // Listen for ANY key to be pressed
 
 // Recording event listeners
