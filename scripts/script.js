@@ -3,11 +3,20 @@ const drums = document.getElementById('drums');
 const guitar = document.getElementById('guitar');
 const bass = document.getElementById('bass');
 const instruments = [drums, guitar, bass];
+const welcomeButton = document.getElementById('welcome-btn');
 
-// Flags
-let isRecording = false;
+//Flags
+let isActive = false;   // Used to determine if playSound should run
 
+
+// ----------------------- APP FUNCTIONS ----------------------- /*
 function playSound(e) {
+
+  //Return if there are no active instruments
+  if (!isActive) {
+    return;
+  }
+
   // Find active instrument
   const instrument = instruments.find((inst) => {
     if (inst.classList.contains('active')) {
@@ -58,6 +67,7 @@ function toggleActive(e) {
   console.log(keys);
   // toggle active class on or off, add or remove eventListeners
   if (div.classList.contains('active')) {
+    isActive = false;
     div.classList.remove('active');
     div.removeEventListener('keypress', playSound);
     if (keys) {
@@ -65,6 +75,7 @@ function toggleActive(e) {
       keys.removeEventListener('click', playSound);
     }
   } else {
+    isActive = true;
     div.classList.add('active');
     div.addEventListener('keypress', playSound);
     if (keys) {
@@ -74,9 +85,22 @@ function toggleActive(e) {
   }
 }
 
-// Event Listeners
-drums.addEventListener('click', toggleActive);  // Listen for drums to be clicked
-guitar.addEventListener('click', toggleActive);  // Listen for guitar to be clicked
-bass.addEventListener('click', toggleActive);  // Listen for bass to be clicked
+// ---------------------------- WELCOME FUNCTIONS -------------------------- //
+function handleWelcome () {
+  if (typeof(Storage) !== 'undefined') {
+    const username = document.getElementById('username');
+    sessionStorage.username = username;
+    console.log(sessionStorage.username);
+  } else {
+    console.log('No storage support!');
+  }
+}
 
-window.addEventListener('keypress', playSound);
+// Event Listeners
+drums.addEventListener('click', toggleActive);    // Listen for drums to be clicked
+guitar.addEventListener('click', toggleActive);   // Listen for guitar to be clicked
+bass.addEventListener('click', toggleActive);     // Listen for bass to be clicked
+window.addEventListener('keypress', playSound);   // Listen for ANY key to be pressed
+
+// Welcome screen event Listeners
+welcomeButton.addEventListener('click', handleWelcome);   // Listen for welcome button to be pressed
