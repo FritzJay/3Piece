@@ -70,8 +70,11 @@ button:focus {
 }
 
 button:hover {
-  background-color: #9AB;
-  border-color: #9AB;
+  opacity: 0.84;
+}
+
+button:active {
+  opacity: 0.54;
 }
 
 button.active {
@@ -124,6 +127,7 @@ button.active {
 /* ---------------- Welcome Screen ------------------- */
 #welcome.active {
   display: flex;
+  z-index: 1;
   position: fixed;
   justify-content: center;
   align-items: center;
@@ -142,14 +146,15 @@ button.active {
   font-family: "Arial Black", Gadget, sans-serif;
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   background-color: white;
   border-radius: 10px;
-  padding: 5%;
+  padding: 10%;
 }
 
 #welcome form input {
+  margin: 25px 0 25px 0;
   font-family: "Comic Sans MS", cursive, sans-serif;
   padding: 5px;
 }
