@@ -268,7 +268,23 @@ function handleSaveClick (e) {
   }
 }
 
+// Removes username from localStorage
+function handleForgetClick () {
+  if (typeof(Storage) !== 'undefined') {
+    if (!localStorage.username) {
+      return;
+    }
+    localStorage.removeItem('username');
+    localStorage.removeItem('drumsRecording');
+    localStorage.removeItem('guitarRecording');
+    localStorage.removeItem('bassRecording');
+  } else {
+    console.log('No storage support!');
+  }
+}
+
 // ---------------------------- WELCOME -------------------------- //
+
 function welcome () {
   if (typeof(Storage) !== 'undefined') {
     // If username is already stored
@@ -294,18 +310,6 @@ function handleWelcomeClick () {
   }
 }
 
-// Removes username from localStorage
-function handleForgetClick () {
-  if (typeof(Storage) !== 'undefined') {
-    if (!localStorage.username) {
-      return;
-    }
-    localStorage.removeItem('username');
-    localStorage.removeItem('drumsRecording');
-  } else {
-    console.log('No storage support!');
-  }
-}
 // App event Listeners
 drummer.addEventListener('click', toggleActive);    // Listen for drums to be clicked
 guitarist.addEventListener('click', toggleActive);   // Listen for guitar to be clicked
