@@ -11,6 +11,7 @@ let isActive = false;                                 // Stop playSound from run
 // Recording
 const recordButton = document.getElementById('record-btn');
 const playButton = document.getElementById('play-btn');
+const saveButtons = document.querySelectorAll('.save-btn');
 let isRecording = false;
 let startRecording = Date.now();
 let drumsRecording = [];
@@ -166,6 +167,10 @@ function handlePlayClick () {
   });
 }
 
+function handleSaveClick (e) {
+  console.log('Saving ' + e.srcElement.parentElement);
+}
+
 // ---------------------------- WELCOME -------------------------- //
 function welcome () {
   if (typeof(Storage) !== 'undefined') {
@@ -212,6 +217,7 @@ window.addEventListener('keypress', playSound);   // Listen for ANY key to be pr
 // Recording event listeners
 recordButton.addEventListener('click', handleRecordClick);
 playButton.addEventListener('click', handlePlayClick);
+saveButtons.forEach(button => button.addEventListener('click', handleSaveClick));
 
 // Welcome screen event Listeners
 welcomeButton.addEventListener('click', handleWelcomeClick);   // Listen for welcome button to be pressed
