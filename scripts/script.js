@@ -58,25 +58,29 @@ function playSound(e) {
   // start button transition via css
   button.classList.add('active');
   //listen for button css transition end
-  button.addEventListener('transitionend', removeActive);
+  button.addEventListener('transitionend', removeActiveButton);
 }
 
-function removeActive (e) {
+function removeActiveButton (e) {
+  console.log('removeActiveButton');
   // get elements element
   const element = e.srcElement;
   // remove playing class from element
   element.classList.remove('active');
   // remove event listener from element
-  element.removeEventListener('transitionend', removeActive);
+  element.removeEventListener('transitionend', removeActiveButton);
 }
 
-function removeActive (element, keys, saveButton, saveText) {
-  console.log(element);
+function removeActiveInstrument (element, keys, saveButton, saveText) {
+  console.log('hello from removeActive (element, keys...)');
   // Instrument active removal
   //Remove .actives and eventListeners
   element.classList.remove('active');
   element.removeEventListener('keypress', playSound);
-  saveButton.classList.remove('active');
+  // If save button exist remove class from it
+  if (saveButton) {
+    saveButton.classList.remove('active');
+  }
   // If keys exist remove class and event listener from keys
   if (keys) {
     keys[0].parentElement.classList.remove('active');
@@ -87,7 +91,6 @@ function removeActive (element, keys, saveButton, saveText) {
 function toggleActive(e) {
   // get div of instrument soon to be set to active
   const element = e.srcElement.parentElement;
-  console.log('Element: ' + element);
   // Get keys of element
   const keys = element.querySelectorAll('.keys button');
   // Get saveButton of element
@@ -95,10 +98,11 @@ function toggleActive(e) {
   // Get saveText of element
   const saveText = element.querySelector('.save-text');
 
+  // If element is active then remove active class from it and all its children
   if (element.classList.contains('active')) {
-    removeActive(element, keys, saveButton, saveText);
+    removeActiveInstrument(element, keys, saveButton, saveText);
     isActive = false;
-  } else {
+  } else {    // Else add isActive to element and all its children
     isActive = true;
     element.classList.add('active');
     element.addEventListener('keypress', playSound);
@@ -109,11 +113,13 @@ function toggleActive(e) {
       keys.forEach(key => key.addEventListener('click', playSound));
     }
   }
-
   // Set all other instruments to InActive
   const others = instruments.filter(instrument => instrument.id !== element.id);
   others.forEach(instrument => {
-    removeActive(instrument);
+    const otherKeys = instrument.querySelectorAll('.keys button');
+    const otherSaveButton = instrument.querySelector('.save-btn');
+    const otherSaveText = instrument.querySelector('.save-text');
+    removeActiveInstrument(instrument, otherKeys, otherSaveButton, otherSaveText);
   });
 }
 
