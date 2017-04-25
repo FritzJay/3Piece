@@ -1,6 +1,7 @@
 body {
   background-color: #1a1516;
   padding: 0 5% 0 5%;
+  font-family: "Arial Black", Gadget, sans-serif;
 }
 
 #app {
@@ -8,8 +9,12 @@ body {
   flex-flow: column wrap;
   justify-content: center;
   padding-top: 45px;
-  border-radius: 15px;
+  border-radius: 5px;
   background-color: #edefe1;
+}
+
+.name {
+  font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 button {
@@ -39,11 +44,15 @@ button:active {
 .instrument-container {
   display: flex;
   flex-flow: row nowrap;
-  flex: auto;
   align-items: center;
   justify-content: space-around;
   padding: 5% 0 5% 0;
-  background-image: url("media/imgs/background.jpeg");
+  margin: 15px;
+  border-radius: 5px;
+  flex: auto;
+  background-image: url("../media/imgs/background.jpeg");
+  background-position: center 75%;
+  background-size: 100%;
 }
 
 .keys {
@@ -72,17 +81,19 @@ button:active {
   flex-flow: column nowrap;
   justify-content: space-between;
 
-  flex-basis: 100px;
+  flex-basis: 20%;
   background-color: black;
+  background-color: rgba(0, 0, 0, 0.54);
   transition: all 0.25s ease;
 }
 
 .instrument:hover {
   background-color: yellow;
+  background-color: rgba(255, 255, 0, 0.54);
 }
 
 .instrument.active {
-  background-color: green;
+  transform: scale(1.25);
 }
 
 button.active {
@@ -126,14 +137,13 @@ button.active {
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
-  padding: 10px;
   flex: 1;
   background-color: #cb7259;
 }
 
 .controls-btn {
   flex: 1;
-  margin: 0 15px 0 15px;
+  margin: 0 5% 0 5%;
 }
 
 .record-btn {
@@ -168,7 +178,6 @@ button.active {
 }
 
 #welcome form {
-  font-family: "Arial Black", Gadget, sans-serif;
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -180,7 +189,6 @@ button.active {
 
 #welcome form input {
   margin: 25px 0 25px 0;
-  font-family: "Comic Sans MS", cursive, sans-serif;
   padding: 5px;
 }
 

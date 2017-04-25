@@ -230,7 +230,7 @@ function welcome () {
     // If username is already stored
     if (localStorage.username) {
       welcomeScreen.classList.remove('active');                           // Don't display welcome screen
-      welcomeMessage.innerHTML = `What's up ${localStorage.username}!`;   // Fill in welcome message
+      welcomeMessage.innerHTML = `What's up <span="name">${localStorage.username}</span>!`;   // Fill in welcome message
     } else {
       welcomeScreen.classList.add('active');      // Hide welcome screen
       welcomeMessage.innerHTMl = '';              // Remove welcome message
