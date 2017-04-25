@@ -7,6 +7,7 @@ let isActive = false;                                 // Stop playSound from run
 
 // Recording
 const recordButton = document.getElementById('record-btn');
+const playButton = document.getElementById('play-btn');
 let isRecording = false;
 let startRecording = Date.now();
 let drumsRecording = [];
@@ -42,7 +43,7 @@ function playSound(e) {
   }
   // If isRecording, send button and timestamp data to record()
   if (isRecording) {
-    record(instrument.id, button, Date.now());
+    record(instrument, button, Date.now());
   }
 
   // Get audio with corresponding data-key
@@ -109,10 +110,11 @@ class recordNode {
 }
 
 function record (instrument, button, timestamp) {
+  const instrumentId = instrument.id;
   console.log(instrument);
   const node = new recordNode(button, timestamp);
 
-  switch (instrument) {
+  switch (instrumentId) {
     case 'drums':
       drumsRecording.push(node);
       break;
@@ -137,6 +139,23 @@ function handleRecordClick () {
   recordButton.classList.add('active');
   startRecording = Date.now();
   isRecording = true;
+}
+
+function handlePlayClick () {
+  console.log('Playing drumsRecording:');
+  drumsRecording.forEach(node => {
+    setTimeout(function() {
+      let audio = drums.querySelector(`audio[data-key="${node.button.dataset.key}"]`)
+      // Reset audio.currentTime to 0. This allows us to play sounds without waiting for currently playing sound to end
+      audio.currentTime = 0;
+      // play audio
+      audio.play();
+      // start button transition via css
+      node.button.classList.add('playing');
+      //listen for button css transition end
+      node.button.addEventListener('transitionend', removePlaying);
+    }, (node.timestamp - startRecording));
+  });
 }
 
 // ---------------------------- WELCOME -------------------------- //
@@ -184,6 +203,7 @@ window.addEventListener('keypress', playSound);   // Listen for ANY key to be pr
 
 // Recording event listeners
 recordButton.addEventListener('click', handleRecordClick);
+playButton.addEventListener('click', handlePlayClick);
 
 // Welcome screen event Listeners
 welcomeButton.addEventListener('click', handleWelcomeClick);   // Listen for welcome button to be pressed
