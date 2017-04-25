@@ -1,15 +1,15 @@
-// Set consts
-const drums = document.getElementById('drums');
-const guitar = document.getElementById('guitar');
-const bass = document.getElementById('bass');
-const instruments = [drums, guitar, bass];
-const welcomeScreen = document.getElementById('welcome');
-const welcomeMessage = document.getElementById('welcome-message');
-const welcomeButton = document.getElementById('welcome-btn');
-const forgetButton = document.getElementById('forget-btn');
+// Instruments
+const drums = document.getElementById('drums');       // Drums container
+const guitar = document.getElementById('guitar');     // Guitar container
+const bass = document.getElementById('bass');         // Bass container
+const instruments = [drums, guitar, bass];            // Allows me to cycle through instruments to see which one is active
+let isActive = false;                                 // Stop playSound from running if there are no active instruments
 
-//Flags
-let isActive = false;   // Used to determine if playSound should run
+// Welcome
+const welcomeScreen = document.getElementById('welcome');             // Welcome screen container
+const welcomeMessage = document.getElementById('welcome-message');    // Welcome message
+const welcomeButton = document.getElementById('welcome-btn');         // 'Let's Rock!' button
+const forgetButton = document.getElementById('forget-btn');1          // 'Forget about me' button
 
 // ----------------------- APP FUNCTIONS ----------------------- /*
 function playSound(e) {
@@ -18,27 +18,23 @@ function playSound(e) {
   if (!isActive) {
     return;
   }
-
   // Find active instrument
   const instrument = instruments.find((inst) => {
     if (inst.classList.contains('active')) {
       return inst;
     };
   });
-
-  // Get button. Adjusted the querySelector depending on event type
+  // Get button. Adjust the querySelector depending on event type
   let button = (e.type != 'keypress') ? e.srcElement : instrument.querySelector(`button[data-key="${e.keyCode}"]`);
-  console.log(button);
   //Return if button is null or isn't active
   if (!button) {
     return;
-  } else if (!button.parentElement.classList.contains('active'))
-  {
+  } else if (!button.parentElement.classList.contains('active')) {
     return;
   }
   // Get audio with corresponding data-key
   let audio = instrument.querySelector(`audio[data-key="${button.dataset.key}"]`)
-  // FROM THE TOP (reset audio.currentTime to 0. This allows us to play sounds quicker)
+  // Reset audio.currentTime to 0. This allows us to play sounds without waiting for currently playing sound to end
   audio.currentTime = 0;
   // play audio
   audio.play();
@@ -72,6 +68,7 @@ function toggleActive(e) {
     isActive = false;
     div.classList.remove('active');
     div.removeEventListener('keypress', playSound);
+    // If keys exist remove class and event listener from keys
     if (keys) {
       keys.classList.remove('active');
       keys.removeEventListener('click', playSound);
@@ -80,6 +77,7 @@ function toggleActive(e) {
     isActive = true;
     div.classList.add('active');
     div.addEventListener('keypress', playSound);
+    // If keys exist add class and event listener from keys
     if (keys) {
       keys.classList.add('active');
       keys.addEventListener('click', playSound);
@@ -90,28 +88,30 @@ function toggleActive(e) {
 // ---------------------------- WELCOME FUNCTIONS -------------------------- //
 function welcome () {
   if (typeof(Storage) !== 'undefined') {
+    // If username is already stored
     if (localStorage.username) {
-      welcomeScreen.classList.remove('active');
-      welcomeMessage.innerHTML = `What's up ${localStorage.username}!`;
+      welcomeScreen.classList.remove('active');                           // Don't display welcome screen
+      welcomeMessage.innerHTML = `What's up ${localStorage.username}!`;   // Fill in welcome message
     } else {
-      welcomeScreen.classList.add('active');
-      welcomeMessage.innerHTMl = '';
+      welcomeScreen.classList.add('active');      // Hide welcome screen
+      welcomeMessage.innerHTMl = '';              // Remove welcome message
     }
   } else {
     console.log('No storage support!');
   }
 }
 
+// Gets username from form and saves it in localStorage.username
 function handleWelcomeClick () {
   if (typeof(Storage) !== 'undefined') {
     const username = document.getElementById('username').value;
     localStorage.username = username;
-    console.log(sessionStorage.username);
   } else {
     console.log('No storage support!');
   }
 }
 
+// Removes username from localStorage
 function handleForgetClick () {
   if (typeof(Storage) !== 'undefined') {
     if (!localStorage.username) {
