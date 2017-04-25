@@ -3,6 +3,7 @@ const drums = document.getElementById('drums');
 const guitar = document.getElementById('guitar');
 const bass = document.getElementById('bass');
 const instruments = [drums, guitar, bass];
+const welcomeScreen = document.getElementById('welcome');
 const welcomeButton = document.getElementById('welcome-btn');
 const forgetButton = document.getElementById('forget-btn');
 
@@ -89,9 +90,9 @@ function toggleActive(e) {
 function welcome () {
   if (typeof(Storage) !== 'undefined') {
     if (localStorage.username) {
-
+      welcomeScreen.classList.remove('active');
     } else {
-
+      welcomeScreen.classList.add('active');
     }
   } else {
     console.log('No storage support!');
