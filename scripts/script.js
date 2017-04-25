@@ -170,11 +170,28 @@ function handleRecordClick () {
 // Check's if anything is stored in localStorage and plays it if it is.
 function handlePlayClick (e) {
   if (typeof(Storage) !== 'undefined') {                        // If localStorage is accessable
+    // Check for Drums
     if (localStorage.drumsRecording) {                          // If there is a recording saved in localStorage
       playRecording(JSON.parse(localStorage.drumsRecording));   // Parse the storage and send it to playRecording
     }
     else if (drumsRecording.length > 0) {
-      playRecording(drumsRecording);
+      playRecording(drumsRecording);                            // If there is a recording in memory play that
+    }
+
+    //Check for guitar
+    if (localStorage.guitarRecording) {                          // If there is a recording saved in localStorage
+      playRecording(JSON.parse(localStorage.guitarRecording));   // Parse the storage and send it to playRecording
+    }
+    else if (guitarRecording.length > 0) {
+      playRecording(guitarRecording);                            // If there is a recording in memory play that
+    }
+
+    //Check for bass
+    if (localStorage.bassRecording) {                          // If there is a recording saved in localStorage
+      playRecording(JSON.parse(localStorage.bassRecording));   // Parse the storage and send it to playRecording
+    }
+    else if (bassRecording.length > 0) {
+      playRecording(guitarRecording);                            // If there is a recording in memory play that
     }
   } else {
     console.log('Storage not supported');
