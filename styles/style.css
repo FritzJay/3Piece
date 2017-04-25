@@ -5,7 +5,7 @@ body {
 
 #app {
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column wrap;
   justify-content: center;
   padding-top: 45px;
   border-radius: 15px;
@@ -35,6 +35,17 @@ button:active {
 }
 
 /* ------------------- Instruments --------------------- */
+
+.instrument-container {
+  display: flex;
+  flex-flow: row nowrap;
+  flex: auto;
+  align-items: center;
+  justify-content: space-around;
+  padding: 5% 0 5% 0;
+  background-image: url("media/imgs/background.jpeg");
+}
+
 .keys {
   opacity: 0;
   visibility: hidden;
@@ -54,17 +65,14 @@ button:active {
   flex: auto;
   align-self: center;
   margin-top: 20px;
-  height: 250px;
-  width: 250px;
 }
 
 .instrument {
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
-  flex: 0 1 30%;
-  padding: 25px;
-  margin: 50px;
+
+  flex-basis: 100px;
   background-color: black;
   transition: all 0.25s ease;
 }
@@ -75,13 +83,6 @@ button:active {
 
 .instrument.active {
   background-color: green;
-}
-
-.drum-wrapper {
-  display: flex;
-  flex: 0 1 100%;
-  align-items: center;
-  justify-content: center;
 }
 
 button.active {
