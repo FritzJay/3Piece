@@ -113,11 +113,12 @@ button.active {
 .save-text {
   margin-left: 15px;
   flex: 3;
-  visibility: hidden;
+  opacity: 0;
+  transition: all 1s ease;
 }
 
 .save-text.active {
-    visibility: visible;
+  opacity: 1;
 }
 
 /* ---------------- Welcome Screen ------------------- */

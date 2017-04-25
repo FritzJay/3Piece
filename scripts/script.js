@@ -114,13 +114,14 @@ class recordNode {
   constructor(button, timestamp) {
     this.button = button;
     this.timestamp = timestamp;
+    this.start = startRecording;
   }
 }
 
 function record (instrument, button, timestamp) {
   const instrumentId = instrument.id;
-  console.log(instrument);
-  const node = new recordNode(button, timestamp);
+  console.log(button);
+  const node = new recordNode(button.dataset.key, timestamp);
 
   switch (instrumentId) {
     case 'drums':
@@ -150,19 +151,29 @@ function handleRecordClick () {
 }
 
 function handlePlayClick () {
-  console.log('Playing drumsRecording:');
-  drumsRecording.forEach(node => {
+  if (typeof(Storage) !== 'undefined') {
+    if (localStorage.drumsRecording) {
+      console.log(localStorage.drumsRecording);
+      playRecording(JSON.parse(localStorage.drumsRecording));
+    }
+    else if (drumsRecording.length > 0) {
+      playRecording(drumsRecording);
+    }
+  } else {
+    console.log('Storage not supported');
+  }
+}
+
+function playRecording (recording) {
+  console.log(recording);
+  recording.forEach(node => {
     setTimeout(function() {
-      let audio = drums.querySelector(`audio[data-key="${node.button.dataset.key}"]`)
+      let audio = drums.querySelector(`audio[data-key="${node.button}"]`)
       // Reset audio.currentTime to 0. This allows us to play sounds without waiting for currently playing sound to end
       audio.currentTime = 0;
       // play audio
       audio.play();
-      // start button transition via css
-      node.button.classList.add('playing');
-      //listen for button css transition end
-      node.button.addEventListener('transitionend', removePlaying);
-    }, (node.timestamp - startRecording));
+    }, (node.timestamp - node.start));
   });
 }
 
@@ -172,14 +183,27 @@ function handleSaveClick (e) {
   if (drumsRecording.length > 0) {
     console.log(drumsRecording);
     if (typeof(Storage) !== 'undefined') {
-      localStorage.drumsRecording = drumsRecording;
+
+      //Save recording as a JSON object in order to parse correctly later
+      let recording = '['
+      drumsRecording.forEach(node => {
+        recording += `{ "button":"${node.button}" , "timestamp":"${node.timestamp}" , "start":"${node.start}" },`
+      });
+      recording = recording.substring(0, recording.length - 1);    // Take off last comma so it doesn't effect json.parse
+      recording += ' ]';
+      localStorage.drumsRecording = recording;
+      console.log(localStorage.drumsRecording);
+
+      saveText.innerHtml = 'Saved.';
+      saveText.classList.add('active');
+      saveText.addEventListener('transitionend', removeActive);
     } else {
       console.log('Storage isn\'t supported');
     }
   } else {
     saveText.innerHTML = 'You haven\'t recorded anything yet';
     saveText.classList.add('active');
-    saveText.addEventListener('')
+    saveText.addEventListener('transitionend', removeActive);
   }
 }
 
@@ -216,6 +240,7 @@ function handleForgetClick () {
       return;
     }
     localStorage.removeItem('username');
+    localStorage.removeItem('drumsRecording');
   } else {
     console.log('No storage support!');
   }
