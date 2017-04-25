@@ -26,7 +26,6 @@ const forgetButton = document.getElementById('forget-btn');1          // 'Forget
 
 // ----------------------- APP ----------------------- /*
 function playSound(e) {
-
   //Return if there are no active instruments
   if (!isActive) {
     return;
@@ -57,18 +56,18 @@ function playSound(e) {
   // play audio
   audio.play();
   // start button transition via css
-  button.classList.add('playing');
+  button.classList.add('active');
   //listen for button css transition end
-  button.addEventListener('transitionend', removePlaying);
+  button.addEventListener('transitionend', removeActive);
 }
 
-function removePlaying(e) {
-  // get button element
-  const button = e.srcElement;
+function removeActive(e) {
+  // get elements element
+  const element = e.srcElement;
   // remove playing class from button
-  button.classList.remove('playing');
+  element.classList.remove('active');
   // remove event listener from button
-  button.removeEventListener('transitionend', removePlaying);
+  element.removeEventListener('transitionend', removeActive);
 }
 
 function toggleActive(e) {
@@ -169,6 +168,19 @@ function handlePlayClick () {
 
 function handleSaveClick (e) {
   console.log('Saving ' + e.srcElement.parentElement);
+  const saveText = e.srcElement.parentElement.querySelector('.save-text');
+  if (drumsRecording.length > 0) {
+    console.log(drumsRecording);
+    if (typeof(Storage) !== 'undefined') {
+      localStorage.drumsRecording = drumsRecording;
+    } else {
+      console.log('Storage isn\'t supported');
+    }
+  } else {
+    saveText.innerHTML = 'You haven\'t recorded anything yet';
+    saveText.classList.add('active');
+    saveText.addEventListener('')
+  }
 }
 
 // ---------------------------- WELCOME -------------------------- //

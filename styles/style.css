@@ -74,7 +74,7 @@ button:hover {
   border-color: #9AB;
 }
 
-button.playing {
+button.active {
   height: 57px;
   width: 57px;
   background-color: #AAA;
