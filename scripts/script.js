@@ -4,6 +4,7 @@ const guitar = document.getElementById('guitar');
 const bass = document.getElementById('bass');
 const instruments = [drums, guitar, bass];
 const welcomeScreen = document.getElementById('welcome');
+const welcomeMessage = document.getElementById('welcome-message');
 const welcomeButton = document.getElementById('welcome-btn');
 const forgetButton = document.getElementById('forget-btn');
 
@@ -91,8 +92,10 @@ function welcome () {
   if (typeof(Storage) !== 'undefined') {
     if (localStorage.username) {
       welcomeScreen.classList.remove('active');
+      welcomeMessage.innerHTML = `What's up ${localStorage.username}!`;
     } else {
       welcomeScreen.classList.add('active');
+      welcomeMessage.innerHTMl = '';
     }
   } else {
     console.log('No storage support!');
@@ -101,7 +104,7 @@ function welcome () {
 
 function handleWelcomeClick () {
   if (typeof(Storage) !== 'undefined') {
-    const username = document.getElementById('username');
+    const username = document.getElementById('username').value;
     localStorage.username = username;
     console.log(sessionStorage.username);
   } else {
@@ -119,7 +122,6 @@ function handleForgetClick () {
     console.log('No storage support!');
   }
 }
-window.onLoad(welcome);
 // Event Listeners
 drums.addEventListener('click', toggleActive);    // Listen for drums to be clicked
 guitar.addEventListener('click', toggleActive);   // Listen for guitar to be clicked
@@ -129,3 +131,5 @@ window.addEventListener('keypress', playSound);   // Listen for ANY key to be pr
 // Welcome screen event Listeners
 welcomeButton.addEventListener('click', handleWelcomeClick);   // Listen for welcome button to be pressed
 forgetButton.addEventListener('click', handleForgetClick);     // Listen for forgetButton to be clicked
+
+window.onload = welcome;
