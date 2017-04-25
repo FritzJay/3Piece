@@ -73,12 +73,8 @@ function removeActive(e) {
 function toggleActive(e) {
   // get div of character soon to be set to active
   const div = e.srcElement.parentElement;
-  // if div contains .keys return
-  if (div.classList.contains('keys')) {
-    return;
-  }
   // Get keys of div
-  const keys = div.querySelector('.keys');
+  const keys = div.querySelectorAll('.keys button');
   // Get saveButton of div
   const saveButton = div.querySelector('.save-btn');
   // Get saveText of div
@@ -91,8 +87,8 @@ function toggleActive(e) {
     saveButton.classList.remove('active');
     // If keys exist remove class and event listener from keys
     if (keys) {
-      keys.classList.remove('active');
-      keys.removeEventListener('click', playSound);
+      keys[0].parentElement.classList.remove('active');
+      keys.forEach(key => key.removeEventListener('click', playSound));
     }
   } else {
     isActive = true;
@@ -101,8 +97,8 @@ function toggleActive(e) {
     saveButton.classList.add('active');
     // If keys exist add class and event listener from keys
     if (keys) {
-      keys.classList.add('active');
-      keys.addEventListener('click', playSound);
+      keys[0].parentElement.classList.add('active');
+      keys.forEach(key => key.addEventListener('click', playSound));
     }
   }
 }
