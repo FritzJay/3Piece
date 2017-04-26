@@ -2,4 +2,5 @@ change name in welcome message to different font
 
 make forget about me display warning message and reload page
 
-display saved data
+display saved data -- in progress
+move all of the querys from toggleActive to add/remove Active. That was I can just adjust add/remove active and call it good.
