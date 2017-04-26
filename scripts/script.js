@@ -27,6 +27,9 @@ const welcomeMessage = document.getElementById('welcome-message');    // Welcome
 const welcomeButton = document.getElementById('welcome-btn');         // 'Let's Rock!' button
 const forgetButton = document.getElementById('forget-btn');          // 'Forget about me' button
 
+// Forget
+let isForget = false;
+
 // ----------------------- APP ----------------------- /*
 function playSound (e) {
   // Return if there are no active instruments
@@ -112,7 +115,7 @@ function addActive (element) {
       keys[0].parentElement.classList.add('active');
       keys.forEach(key => key.addEventListener('click', playSound));
     }
-    if (checkStorage) {
+    if (checkStorage()) {
       // Cycle through all instruments
       instruments.forEach((instrument) => {
         refreshSavedData(instrument);
@@ -333,19 +336,36 @@ function handleSaveClick (e) {
   }
 }
 
-// Removes username and all recordings from localStorage
-function handleForgetClick () {
-  if (typeof (Storage) !== 'undefined') {
-    if (!localStorage.username) {
-      return;
-    }
+// Displays warning message if isForget is false
+// Removes username and all recordings from localStorage if isForget is true
+function handleForgetClick (e) {
+  if (isForget) {
     localStorage.removeItem('username');
     localStorage.removeItem('drumsRecording');
     localStorage.removeItem('guitarRecording');
     localStorage.removeItem('bassRecording');
-  } else {
-    console.log('No storage support!');
+    return;
   }
+  if (checkStorage()) {
+    if (!localStorage.username) {
+      return;
+    }
+    // Change text of forgetButton to display a warning message
+    e.srcElement.textContent = 'Delete EVERYTHING?';
+    // Remove old event listener
+    e.srcElement.removeEventListener('click', removeEventListener);
+    // Add new event listener
+    e.srcElement.addEventListener('click', forgetData);
+  }
+}
+
+// Deletes localStorage data and refreshes page
+function forgetData () {
+  localStorage.removeItem('username');
+  localStorage.removeItem('drumsRecording');
+  localStorage.removeItem('guitarRecording');
+  localStorage.removeItem('bassRecording');
+  location.reload();
 }
 
 // ---------------------------- WELCOME -------------------------- //
@@ -357,7 +377,7 @@ function welcome () {
       welcomeScreen.classList.remove('active');                           // Don't display welcome screen
       welcomeMessage.innerHTML = `What's up <span="name">${localStorage.username}</span>!`;   // Fill in welcome message
     } else {
-      welcomeScreen.classList.add('active');      // Hide welcome screen
+      welcomeScreen.classList.add('active');      // Show welcome screen
       welcomeMessage.innerHTMl = '';              // Remove welcome message
     }
   } else {
@@ -390,4 +410,4 @@ saveButtons.forEach(button => button.addEventListener('click', handleSaveClick))
 welcomeButton.addEventListener('click', handleWelcomeClick);   // Listen for welcome button to be pressed
 forgetButton.addEventListener('click', handleForgetClick);     // Listen for forgetButton to be clicked
 
-window.onload = welcome;
+welcome();

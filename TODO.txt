@@ -1,5 +1,5 @@
 change name in welcome message to different font
 
-make forget about me display warning message and reload page
+make forget about me display warning message inside the button and reload page on next click
 
-move all of the querys from toggleActive to add/remove Active. That was I can just adjust add/remove active and call it good.
+utilize checkStorage()
