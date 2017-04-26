@@ -106,23 +106,42 @@ function addActive (element, keys, saveButton, saveText, savedData) {
       keys.forEach(key => key.addEventListener('click', playSound));
     }
     if (checkStorage) {
-      // If recording exists for instrument
-      if (localStorage.drumsRecording) {
-        console.log(localStorage.drumsRecording);
-        // Parse drumsRecording to JSON
-        const recording = JSON.parse(localStorage.drumsRecording);
-        // Get date of recording from JSON
-        let date = new Date(parseInt(recording[0].start)).toUTCString();
-        // Get first 24 characters of date
-        date = date.substring(0, 24);
-        // Find saved-data of currentInstrument
-        const savedDisplay = element.querySelector('.saved-display');
-        // If savedDisplay isn't displaying the date already
-        if (savedDisplay.innerHTML.indexOf(`<li>${date}</li>`) === -1) {
-          // Add saved data to savedDisplay as a date
-          savedDisplay.innerHTML += `<li>${date}</li>`;
+      // Cycle through all instruments
+      instruments.forEach((instrument) => {
+        let recordingName = '';
+        switch (instrument.id) {
+          case 'drums':
+            recordingName = 'drumsRecording';
+            break;
+          case 'guitar':
+            recordingName = 'guitarRecording';
+            break;
+          case 'bass':
+            recordingName = 'bassRecording';
+            break;
+          default:
+            console.log('Incorrect instrument in "instruments"');
+            break;
         }
-      }
+        console.log(recordingName);
+        // If recording exists
+        if (localStorage[recordingName]) {
+          console.log(localStorage[recordingName]);
+          // Parse recording to JSON
+          const recording = JSON.parse(localStorage[recordingName]);
+          // Get date of recording from JSON
+          let date = new Date(parseInt(recording[0].start)).toUTCString();
+          // Get first 24 characters of date
+          date = date.substring(0, 24);
+          // Find saved-data of currentInstrument
+          const savedDisplay = instrument.querySelector('.saved-display');
+          // If savedDisplay isn't displaying the date already
+          if (savedDisplay.innerHTML.indexOf(`<li>${date}</li>`) === -1) {
+            // Add saved data to savedDisplay as a date
+            savedDisplay.innerHTML += `<li>${date}</li>`;
+          }
+        }
+      });
     }
   } else {
     console.log(element);
