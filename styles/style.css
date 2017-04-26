@@ -134,6 +134,13 @@ body {
   background-color: #1a1516;
 }
 
+.record-btn.primed {
+  background-color: green;
+  width: 45px;
+  height: 45px;
+  font-weight: bold;
+}
+
 .record-btn.active {
   width: 55px;
   height: 55px;

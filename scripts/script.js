@@ -66,9 +66,15 @@ function playSound (e) {
   addActive(button);
 }
 
-function removeActive (element, keys, saveButton, saveText, savedData) {
+function removeActive (element) {
   // Check if object passed in is an instrument
   if (element.id === 'drums' || element.id === 'guitar' || element.id === 'bass') {
+    // Get keys of element
+    const keys = element.querySelectorAll('.keys button');
+    // Get saveButton of element
+    const saveButton = element.querySelector('.save-btn');
+    // Get saveData of element
+    const savedData = element.querySelector('.saved-data');
     // Instrument active removal
     // Remove .actives and eventListeners
     element.classList.remove('active');
@@ -233,12 +239,28 @@ function record (instrument, button, timestamp) {
 function handleRecordClick () {
   if (isRecording) {
     recordButton.classList.remove('active');
+    recordButton.textContent = 'Rec.';
     isRecording = false;
     return;
   }
-  recordButton.classList.add('active');
-  startRecording = Date.now();
-  isRecording = true;
+  // Plays countdown before recording
+  recordButton.classList.add('primed');
+  console.log('bout to countdown');
+  let i = 3;
+  recordButton.textContent = i;
+  let countdown = setInterval(function () {
+    i--;
+    if (i > 0) {
+      recordButton.textContent = i;
+    } else {
+      recordButton.classList.remove('primed');
+      recordButton.classList.add('active');
+      recordButton.textContent = 'GO!';
+      startRecording = Date.now();
+      isRecording = true;
+      clearInterval(countdown);
+    }
+  }, 700);
 }
 
 // Check's if anything is stored in localStorage and plays it if it is.
