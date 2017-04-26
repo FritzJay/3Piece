@@ -249,6 +249,7 @@ function handleRecordClick () {
   }
 
   if (isRecording) {
+    // Remove active class and reset button text
     recordButton.classList.remove('active');
     recordButton.textContent = '';
     isRecording = false;
@@ -256,7 +257,9 @@ function handleRecordClick () {
   }
   // Plays countdown before recording
   recordButton.classList.add('primed');
+  // Counts down from 3
   let i = 3;
+  // Update recordButton before interval to make click feel more responsive
   recordButton.textContent = i;
   // Pulse button on first countdown
   pulse();
@@ -267,6 +270,7 @@ function handleRecordClick () {
       pulse();
       recordButton.textContent = i;
     } else {
+      // If i is 0, set record to active
       recordButton.classList.remove('primed');
       recordButton.classList.add('active');
       recordButton.textContent = '';
