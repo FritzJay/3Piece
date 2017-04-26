@@ -238,6 +238,7 @@ function record (instrument, button, timestamp) {
 // Toggles isRecording and active class on button
 function handleRecordClick () {
   if (isRecording) {
+    // Remove active class and reset button text
     recordButton.classList.remove('active');
     recordButton.textContent = 'Rec.';
     isRecording = false;
@@ -245,14 +246,16 @@ function handleRecordClick () {
   }
   // Plays countdown before recording
   recordButton.classList.add('primed');
-  console.log('bout to countdown');
+  // Counts down from 3
   let i = 3;
+  // Update recordButton before interval to make click feel more responsive
   recordButton.textContent = i;
   let countdown = setInterval(function () {
     i--;
     if (i > 0) {
       recordButton.textContent = i;
     } else {
+      // If i is 0, set record to active
       recordButton.classList.remove('primed');
       recordButton.classList.add('active');
       recordButton.textContent = 'GO!';
