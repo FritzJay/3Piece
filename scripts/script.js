@@ -247,7 +247,18 @@ function handleRecordClick () {
       recordButton.classList.remove('pulse');
     });
   }
-
+  // If record-btn is primed or pulsed remove classes and return
+  if (recordButton.classList.contains('primed')) {
+    recordButton.classList.remove('primed');
+    if (recordButton.classList.contains('pulse')) {
+      recordButton.classList.remove('pulse');
+      recordButton.removeEventListener('transitionend', function () {
+        recordButton.classList.remove('pulse');
+      });
+    }
+    return;
+  }
+  // If isRecording then remove all classLists and events
   if (isRecording) {
     // Remove active class and reset button text
     recordButton.classList.remove('active');
