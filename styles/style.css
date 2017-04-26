@@ -97,17 +97,17 @@ body {
 .saved-data {
   display: flex;
   flex-flow: column nowrap;
-  align-items: center;
-  justify-content: flex-start;
+  align-items: flex-start;
+  justify-content: center
   visibility: hidden;
   opacity: 0;
+  color: white;
 }
 
-.saved-data p {
-  color: white;
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: -5px;
+.saved-data ul {
+  list-style: none;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 12px;
 }
 /* ---------------- Controls --------------------- */
 

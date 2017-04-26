@@ -112,13 +112,15 @@ function addActive (element, keys, saveButton, saveText, savedData) {
         // Parse drumsRecording to JSON
         const recording = JSON.parse(localStorage.drumsRecording);
         // Get date of recording from JSON
-        const date = new Date(parseInt(recording[0].start));
+        let date = new Date(parseInt(recording[0].start)).toUTCString();
+        // Get first 24 characters of date
+        date = date.substring(0, 24);
         // Find saved-data of currentInstrument
         const savedDisplay = element.querySelector('.saved-display');
         // If savedDisplay isn't displaying the date already
-        if (savedDisplay.innerHTML.indexOf(`<p>${date}</p>`) === -1) {
+        if (savedDisplay.innerHTML.indexOf(`<li>${date}</li>`) === -1) {
           // Add saved data to savedDisplay as a date
-          savedDisplay.innerHTML += `<p>${date}</p>`;
+          savedDisplay.innerHTML += `<li>${date}</li>`;
         }
       }
     }
