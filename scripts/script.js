@@ -93,9 +93,16 @@ function removeActive (element, keys, saveButton, saveText, savedData) {
   }
 }
 
-function addActive (element, keys, saveButton, saveText, savedData) {
+function addActive (element) {
   // If element is an instrument
   if (element.id === 'drums' || element.id === 'guitar' || element.id === 'bass') {
+    // Get keys of element
+    const keys = element.querySelectorAll('.keys button');
+    // Get saveButton of element
+    const saveButton = element.querySelector('.save-btn');
+    // Get saveData of element
+    const savedData = element.querySelector('.saved-data');
+    // Add active
     element.classList.add('active');
     element.addEventListener('keypress', playSound);
     saveButton.classList.add('active');
@@ -123,21 +130,12 @@ function addActive (element, keys, saveButton, saveText, savedData) {
 function toggleActive (e) {
   // get div of instrument soon to be set to active
   const element = e.srcElement.parentElement;
-  // Get keys of element
-  const keys = element.querySelectorAll('.keys button');
-  // Get saveButton of element
-  const saveButton = element.querySelector('.save-btn');
-  // Get saveText of element
-  const saveText = element.querySelector('.save-text');
-  // Get saveData of element
-  const savedData = element.querySelector('.saved-data');
-
   // If element isn't active then add active class
   if (!element.classList.contains('active')) {
     isActive = true;
-    addActive(element, keys, saveButton, saveText, savedData);
+    addActive(element);
   } else {    // Else remove active from element
-    removeActive(element, keys, saveButton, saveText, savedData);
+    removeActive(element);
     isActive = false;
   }
   // Remove .active from all other instruments
