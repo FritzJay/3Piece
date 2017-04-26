@@ -240,6 +240,14 @@ function record (instrument, button, timestamp) {
 
 // Toggles isRecording and active class on button
 function handleRecordClick () {
+  // Makes record button pulse
+  function pulse () {
+    recordButton.classList.add('pulse');
+    recordButton.addEventListener('transitionend', function () {
+      recordButton.classList.remove('pulse');
+    });
+  }
+
   if (isRecording) {
     recordButton.classList.remove('active');
     recordButton.textContent = '';
@@ -250,9 +258,13 @@ function handleRecordClick () {
   recordButton.classList.add('primed');
   let i = 3;
   recordButton.textContent = i;
+  // Pulse button on first countdown
+  pulse();
   let countdown = setInterval(function () {
     i--;
     if (i > 0) {
+      // Pulse button
+      pulse();
       recordButton.textContent = i;
     } else {
       recordButton.classList.remove('primed');
