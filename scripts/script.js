@@ -74,7 +74,7 @@ function removeActiveButton (e) {
   element.removeEventListener('transitionend', removeActiveButton);
 }
 
-function removeActiveInstrument (element, keys, saveButton, saveText) {
+function removeActiveInstrument (element, keys, saveButton, saveText, savedData) {
   console.log('hello from removeActive (element, keys...)');
   // Instrument active removal
   // Remove .actives and eventListeners
@@ -89,6 +89,10 @@ function removeActiveInstrument (element, keys, saveButton, saveText) {
     keys[0].parentElement.classList.remove('active');
     keys.forEach(key => key.removeEventListener('click', playSound));
   }
+  // Remove save-data active
+  if (savedData) {
+    savedData.classList.remove('active');
+  }
 }
 
 function toggleActive (e) {
@@ -100,16 +104,19 @@ function toggleActive (e) {
   const saveButton = element.querySelector('.save-btn');
   // Get saveText of element
   const saveText = element.querySelector('.save-text');
+  // Get saveData of element
+  const savedData = element.querySelector('.saved-data');
 
   // If element is active then remove active class from it and all its children
   if (element.classList.contains('active')) {
-    removeActiveInstrument(element, keys, saveButton, saveText);
+    removeActiveInstrument(element, keys, saveButton, saveText, savedData);
     isActive = false;
   } else {    // Else add isActive to element and all its children
     isActive = true;
     element.classList.add('active');
     element.addEventListener('keypress', playSound);
     saveButton.classList.add('active');
+    savedData.classList.add('active');
     // If keys exist add class and event listener from keys
     if (keys) {
       keys[0].parentElement.classList.add('active');
@@ -122,7 +129,8 @@ function toggleActive (e) {
     const otherKeys = instrument.querySelectorAll('.keys button');
     const otherSaveButton = instrument.querySelector('.save-btn');
     const otherSaveText = instrument.querySelector('.save-text');
-    removeActiveInstrument(instrument, otherKeys, otherSaveButton, otherSaveText);
+    const otherSavedData = instrument.querySelector('.saved-data');
+    removeActiveInstrument(instrument, otherKeys, otherSaveButton, otherSaveText, otherSavedData);
   });
 }
 

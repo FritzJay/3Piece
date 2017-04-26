@@ -117,11 +117,14 @@ button.active {
 
 .save-btn {
   flex: 1;
-  display: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.25s ease;
 }
 
 .save-btn.active {
-  display: inline;
+  visibility: visible;
+  opacity: 1;
 }
 
 .save-text {
@@ -137,6 +140,26 @@ button.active {
   opacity: 1;
 }
 
+.saved-data {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.saved-data.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.saved-data p {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: -15px;
+}
 /* ---------------- Controls --------------------- */
 
 .controls {
