@@ -105,8 +105,22 @@ function addActive (element, keys, saveButton, saveText, savedData) {
       keys[0].parentElement.classList.add('active');
       keys.forEach(key => key.addEventListener('click', playSound));
     }
-    // If recording exists for instrument
-    if (typeof (Storage) !== 'undefined') {
+    if (checkStorage) {
+      // If recording exists for instrument
+      if (localStorage.drumsRecording) {
+        console.log(localStorage.drumsRecording);
+        // Parse drumsRecording to JSON
+        const recording = JSON.parse(localStorage.drumsRecording);
+        // Get date of recording from JSON
+        const date = new Date(parseInt(recording[0].start));
+        // Find saved-data of currentInstrument
+        const savedDisplay = element.querySelector('.saved-display');
+        // If savedDisplay isn't displaying the date already
+        if (savedDisplay.innerHTML.indexOf(`<p>${date}</p>`) === -1) {
+          // Add saved data to savedDisplay as a date
+          savedDisplay.innerHTML += `<p>${date}</p>`;
+        }
+      }
     }
   } else {
     console.log(element);
@@ -150,12 +164,12 @@ function toggleActive (e) {
 
 // Checks if localStorage is available and console.logs and error if it's not
 function checkStorage () {
-    if (typeof (Storage) !== 'undefined') {
-      return true;
-    } else {
-      console.log('Local Storage is not supported.');
-      return false;
-    }
+  if (typeof (Storage) !== 'undefined') {
+    return true;
+  } else {
+    console.log('Local Storage is not supported.');
+    return false;
+  }
 }
 
 // ---------------------------- RECORDING ------------------------ //
