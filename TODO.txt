@@ -1,3 +1,5 @@
 change name in welcome message to different font
 
 Clear previous recording on record-btn click
+
+stop record if record-btn is clicked twice

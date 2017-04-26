@@ -62,8 +62,11 @@ function playSound (e) {
   audio.currentTime = 0;
   // play audio
   audio.play();
-  // add .active to button
-  addActive(button);
+  // add .playing to button
+  button.classList.add('playing');
+  button.addEventListener('transitionend', function () {
+    button.classList.remove('playing');
+  });
 }
 
 function removeActive (element) {
@@ -239,13 +242,12 @@ function record (instrument, button, timestamp) {
 function handleRecordClick () {
   if (isRecording) {
     recordButton.classList.remove('active');
-    recordButton.textContent = 'Rec.';
+    recordButton.textContent = '';
     isRecording = false;
     return;
   }
   // Plays countdown before recording
   recordButton.classList.add('primed');
-  console.log('bout to countdown');
   let i = 3;
   recordButton.textContent = i;
   let countdown = setInterval(function () {
@@ -255,7 +257,7 @@ function handleRecordClick () {
     } else {
       recordButton.classList.remove('primed');
       recordButton.classList.add('active');
-      recordButton.textContent = 'GO!';
+      recordButton.textContent = '';
       startRecording = Date.now();
       isRecording = true;
       clearInterval(countdown);
@@ -265,7 +267,7 @@ function handleRecordClick () {
 
 // Check's if anything is stored in localStorage and plays it if it is.
 function handlePlayClick () {
-  if (typeof (Storage) !== 'undefined') {                        // If localStorage is accessable
+  if (checkStorage()) {                        // If localStorage is accessable
     // Check for Drums
     if (localStorage.drumsRecording) {                          // If there is a recording saved in localStorage
       playRecording(JSON.parse(localStorage.drumsRecording), 'drums');   // Parse the storage and send it to playRecording
@@ -286,8 +288,6 @@ function handlePlayClick () {
     } else if (bassRecording.length > 0) {
       playRecording(guitarRecording, 'bass');                            // If there is a recording in memory play that
     }
-  } else {
-    console.log('Storage not supported');
   }
 }
 
@@ -332,7 +332,7 @@ function handleSaveClick (e) {
   }
   // If recording exists, save it to localStorage as JSON
   if (recordingType.length > 0) {
-    if (typeof (Storage) !== 'undefined') {
+    if (checkStorage()) {
       // Save recording as a JSON object in order to parse correctly later
       let recording = '['
       recordingType.forEach(node => {
@@ -347,8 +347,6 @@ function handleSaveClick (e) {
       saveText.addEventListener('transitionend', removeActive);
       // Refresh saved data so it displays in instrument
       refreshSavedData(instrument);
-    } else {
-      console.log('Storage isn\'t supported');
     }
   } else {
     // Display save message
@@ -393,7 +391,7 @@ function forgetData () {
 // ---------------------------- WELCOME -------------------------- //
 
 function welcome () {
-  if (typeof (Storage) !== 'undefined') {
+  if (checkStorage()) {
     // If username is already stored
     if (localStorage.username) {
       welcomeScreen.classList.remove('active');                           // Don't display welcome screen
@@ -402,18 +400,14 @@ function welcome () {
       welcomeScreen.classList.add('active');      // Show welcome screen
       welcomeMessage.innerHTMl = '';              // Remove welcome message
     }
-  } else {
-    console.log('No storage support!');
   }
 }
 
 // Gets username from form and saves it in localStorage.username
 function handleWelcomeClick () {
-  if (typeof (Storage) !== 'undefined') {
+  if (checkStorage()) {
     const username = document.getElementById('username').value;
     localStorage.username = username;
-  } else {
-    console.log('No storage support!');
   }
 }
 
