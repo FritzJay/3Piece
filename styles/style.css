@@ -4,7 +4,7 @@ body {
   font-family: "Arial Black", Gadget, sans-serif;
 }
 
-#app {
+.app {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
@@ -21,8 +21,9 @@ body {
 
 .instrument-container {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   align-items: center;
+  align-content: center;
   justify-content: space-between;
   padding: 5% 3% 5% 3%;
   margin: 15px;
@@ -41,6 +42,11 @@ body {
   flex-direction: row;
   justify-content: space-between;
   transition: all 0.25s ease;
+}
+
+.keys button.playing {
+    box-shadow: 0px 0px 10px #fff;
+    transform: scale(1.25);
 }
 
 .instrument img {
@@ -98,7 +104,7 @@ body {
   display: flex;
   flex-flow: column nowrap;
   align-items: flex-start;
-  justify-content: center
+  justify-content: center;
   visibility: hidden;
   opacity: 0;
   color: white;
@@ -120,6 +126,10 @@ body {
   background-color: #cb7259;
 }
 
+.controls h1 {
+  flex: 2;
+}
+
 .controls-btn {
   flex: 1;
   margin: 0 5% 0 5%;
@@ -127,30 +137,30 @@ body {
 
 .record-btn {
   flex: 0 1 auto;
-  width: 40px;
-  height: 40px;
-  margin-left: 30px;
   border-radius: 50%;
   background-color: #1a1516;
+  width: 45px;
+  height: 45px;
 }
 
 .record-btn.primed {
   background-color: green;
-  width: 45px;
-  height: 45px;
   font-weight: bold;
+}
+
+.record-btn.pulse {
+  transform: scale(1.1);
 }
 
 .record-btn.active {
-  width: 55px;
-  height: 55px;
   color: white;
   background-color: red;
   font-weight: bold;
+  transform: scale(1.25);
 }
 
 /* ---------------- Welcome Screen ------------------- */
-#welcome.active {
+.welcome.active {
   display: flex;
   z-index: 1;
   position: fixed;
@@ -160,14 +170,15 @@ body {
   height: 100%;
   top: 0;
   left: 0;
+  background-color: black;
   background-color: RGBA(0, 0, 0, 0.84);
 }
 
-#welcome {
+.welcome {
   display: none;
 }
 
-#welcome form {
+.welcome form {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
@@ -177,12 +188,12 @@ body {
   padding: 10%;
 }
 
-#welcome form input {
+.welcome form input {
   margin: 25px 0 25px 0;
   padding: 5px;
 }
 
-#welcome button {
+.welcome button {
   border-radius: 5px;
   width: 100%;
 }
@@ -195,12 +206,11 @@ body {
 }
 
 button {
-  height: 47px;
-  width: 47px;
   background-color: #123;
   color: white;
   border-radius: 3px;
   border: 2px solid black;
+  padding: 15px;
   transition: all 0.1s ease;
 }
 
@@ -215,12 +225,4 @@ button:hover {
 button:active {
   opacity: 0.54;
   transform: translateY(2px);
-}
-
-button.active {
-  height: 57px;
-  width: 57px;
-  background-color: #AAA;
-  border-color: #AAA;
-  color: black;
 }
