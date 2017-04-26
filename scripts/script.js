@@ -285,7 +285,8 @@ function playRecording (recording, type) {
 }
 
 function handleSaveClick (e) {
-  const saveText = e.srcElement.parentElement.querySelector('.save-text');
+  const instrument = e.srcElement.parentElement.parentElement;
+  const saveText = instrument.querySelector('.save-text');
   let recordingType;
   let localStorageType;
   // Get recording type
@@ -306,7 +307,6 @@ function handleSaveClick (e) {
       console.log('Error: Incorrect recording type in handleSaveClick');
       break;
   }
-
   // If recording exists, save it to localStorage as JSON
   if (recordingType.length > 0) {
     if (typeof (Storage) !== 'undefined') {
@@ -318,11 +318,12 @@ function handleSaveClick (e) {
       recording = recording.substring(0, recording.length - 1);    // Take off last comma so it doesn't effect json.parse
       recording += ' ]';
       localStorage[localStorageType] = recording;
-
       // Display save message
       saveText.innerHtml = 'Saved.';
       saveText.classList.add('active');
       saveText.addEventListener('transitionend', removeActive);
+      // Refresh saved data so it displays in instrument
+      refreshSavedData(instrument);
     } else {
       console.log('Storage isn\'t supported');
     }
