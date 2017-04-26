@@ -105,6 +105,9 @@ function addActive (element, keys, saveButton, saveText, savedData) {
       keys[0].parentElement.classList.add('active');
       keys.forEach(key => key.addEventListener('click', playSound));
     }
+    // If recording exists for instrument
+    if (typeof (Storage) !== 'undefined') {
+    }
   } else {
     console.log(element);
     // start button transition via css
@@ -143,6 +146,16 @@ function toggleActive (e) {
     const otherSavedData = instrument.querySelector('.saved-data');
     removeActive(instrument, otherKeys, otherSaveButton, otherSaveText, otherSavedData);
   });
+}
+
+// Checks if localStorage is available and console.logs and error if it's not
+function checkStorage () {
+    if (typeof (Storage) !== 'undefined') {
+      return true;
+    } else {
+      console.log('Local Storage is not supported.');
+      return false;
+    }
 }
 
 // ---------------------------- RECORDING ------------------------ //
@@ -234,9 +247,7 @@ function playRecording (recording, type) {
 }
 
 function handleSaveClick (e) {
-  console.log('Saving ' + e.srcElement.parentElement);
   const saveText = e.srcElement.parentElement.querySelector('.save-text');
-
   let recordingType;
   let localStorageType;
   // Get recording type
@@ -285,7 +296,7 @@ function handleSaveClick (e) {
   }
 }
 
-// Removes username from localStorage
+// Removes username and all recordings from localStorage
 function handleForgetClick () {
   if (typeof (Storage) !== 'undefined') {
     if (!localStorage.username) {
