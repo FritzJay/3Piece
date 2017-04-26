@@ -17,37 +17,6 @@ body {
   font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
-button {
-  height: 47px;
-  width: 47px;
-  background-color: #123;
-  color: white;
-  border-radius: 3px;
-  border: 2px solid black;
-  transition: all 0.1s ease;
-}
-
-button:focus {
-  outline: none;
-}
-
-button:hover {
-  opacity: 0.84;
-}
-
-button:active {
-  opacity: 0.54;
-  transform: translateY(2px);
-}
-
-button.active {
-  height: 57px;
-  width: 57px;
-  background-color: #AAA;
-  border-color: #AAA;
-  color: black;
-}
-
 /* ------------------- Instruments --------------------- */
 
 .instrument-container {
@@ -72,11 +41,6 @@ button.active {
   flex-direction: row;
   justify-content: space-between;
   transition: all 0.25s ease;
-}
-
-.keys.active {
-  opacity: 1.0;
-  visibility: visible;
 }
 
 .instrument img {
@@ -108,7 +72,6 @@ button.active {
   transform: scale(1.15);
 }
 
-
 .save {
   display: flex;
   flex-flow: row nowrap;
@@ -122,11 +85,6 @@ button.active {
   transition: all 0.25s ease;
 }
 
-.save-btn.active {
-  visibility: visible;
-  opacity: 1;
-}
-
 .save-text {
   margin-left: 15px;
   flex: 3;
@@ -136,10 +94,6 @@ button.active {
   font-size: 8px;
 }
 
-.save-text.active {
-  opacity: 1;
-}
-
 .saved-data {
   display: flex;
   flex-flow: column nowrap;
@@ -147,11 +101,6 @@ button.active {
   justify-content: flex-start;
   visibility: hidden;
   opacity: 0;
-}
-
-.saved-data.active {
-  visibility: visible;
-  opacity: 1;
 }
 
 .saved-data p {
@@ -231,7 +180,40 @@ button.active {
   width: 100%;
 }
 
-#welcome button:active {
-  transform: translateY(2px);
+/* ---------------- Utility ------------------- */
+
+.active {
+  opacity: 1.0;
+  visibility: visible;
+}
+
+button {
+  height: 47px;
+  width: 47px;
+  background-color: #123;
+  color: white;
+  border-radius: 3px;
+  border: 2px solid black;
+  transition: all 0.1s ease;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
   opacity: 0.84;
+}
+
+button:active {
+  opacity: 0.54;
+  transform: translateY(2px);
+}
+
+button.active {
+  height: 57px;
+  width: 57px;
+  background-color: #AAA;
+  border-color: #AAA;
+  color: black;
 }
