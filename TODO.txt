@@ -1,3 +1,9 @@
 change name in welcome message to different font
 
 make forget about me display warning message and reload page
+
+Make an add active class that works with anything
+
+Make an remove active class that works with anything
+
+make an .active class that works for anything in CSS
