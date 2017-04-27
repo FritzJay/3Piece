@@ -38,9 +38,20 @@ body {
   transition: all 0.25s ease;
 }
 
+.keys button {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
 .keys button.playing {
-    box-shadow: 0px 0px 10px #fff;
+    box-shadow: 0px 0px 10px orange;
     transform: scale(1.25);
+}
+
+.key-description {
+  font-size: 8px;
 }
 
 .instrument {
@@ -50,6 +61,26 @@ body {
   transition: all 0.25s ease;
   max-width: 250px;
   max-height: 250px;
+  padding: 15px;
+  border-radius: 50%;
+}
+
+.instrument img {
+  margin: 5px 0 5px 0;
+  align-self: center;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.instrument:hover {
+  background-color: yellow;
+  background-color: rgba(255, 255, 0, 0.32);
+}
+
+.instrument.active {
+  transform: scale(1.15);
+  background-color: yellow;
+  background-color: rgba(255, 255, 0, 0.54);
 }
 
 #guitar {
@@ -62,22 +93,6 @@ body {
 
 #bass {
   align-self: flex-end;
-}
-
-.instrument img {
-  margin: 5px 0 5px 0;
-  align-self: center;
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.instrument:hover {
-  background-color: yellow;
-  background-color: rgba(255, 255, 0, 0.54);
-}
-
-.instrument.active {
-  transform: scale(1.15);
 }
 
 .save {
@@ -95,21 +110,22 @@ body {
 
 .save-text {
   margin-left: 15px;
+  margin-bottom: 15px;
   flex: 3;
   opacity: 0;
   transition: all 1s ease;
-  color: white;
+  color: red;
   font-size: 8px;
 }
 
 .saved-data {
   display: flex;
   flex-flow: column nowrap;
-  align-items: flex-start;
+  align-items: flex-end;
   justify-content: center;
   visibility: hidden;
   opacity: 0;
-  color: white;
+  color: black;
 }
 
 .saved-data ul {
@@ -208,11 +224,13 @@ body {
 }
 
 button {
-  background-color: #123;
-  color: white;
+  background-color: white;
+  background-color: rgba(0, 0, 0, 0);
   border-radius: 3px;
   border: 2px solid black;
   padding: 15px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: black;
   transition: all 0.1s ease;
 }
 
