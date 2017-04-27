@@ -454,3 +454,6 @@ welcomeButton.addEventListener('click', handleWelcomeClick);   // Listen for wel
 forgetButton.addEventListener('click', handleForgetClick);     // Listen for forgetButton to be clicked
 
 welcome();
+console.log(localStorage.drumsRecording);
+console.log(localStorage.guitarRecording);
+console.log(localStorage.bassRecording);
