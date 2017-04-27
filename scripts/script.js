@@ -23,7 +23,6 @@ let bassRecording = [];
 
 // Welcome
 const welcomeScreen = document.getElementById('welcome');             // Welcome screen container
-const welcomeMessage = document.getElementById('welcome-message');    // Welcome message
 const welcomeButton = document.getElementById('welcome-btn');         // 'Let's Rock!' button
 const forgetButton = document.getElementById('forget-btn');          // 'Forget about me' button
 
@@ -262,7 +261,7 @@ function handleRecordClick () {
   if (isRecording) {
     // Remove active class and reset button text
     recordButton.classList.remove('active');
-    recordButton.textContent = '';
+    recordButton.textContent = 'Record';
     isRecording = false;
     return;
   }
@@ -284,7 +283,7 @@ function handleRecordClick () {
       // If i is 0, set record to active
       recordButton.classList.remove('primed');
       recordButton.classList.add('active');
-      recordButton.textContent = '';
+      recordButton.textContent = 'Rock On!';
       startRecording = Date.now();
       isRecording = true;
       clearInterval(countdown);
@@ -422,10 +421,8 @@ function welcome () {
     // If username is already stored
     if (localStorage.username) {
       welcomeScreen.classList.remove('active');                           // Don't display welcome screen
-      welcomeMessage.innerHTML = `What's up <span="name">${localStorage.username}</span>!`;   // Fill in welcome message
     } else {
       welcomeScreen.classList.add('active');      // Show welcome screen
-      welcomeMessage.innerHTMl = '';              // Remove welcome message
     }
   }
 }
