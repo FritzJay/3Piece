@@ -3,5 +3,3 @@ change name in welcome message to different font
 Clear previous recording on record-btn click
 
 find a way to clearInterval in record-btn on second click
-
-add comments for </div><!-- like this -->
