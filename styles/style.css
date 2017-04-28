@@ -12,6 +12,7 @@ body {
   flex: 1 1 auto;
   position: relative;
   display: block;
+  margin: auto;
 }
 
 .background img {
@@ -37,7 +38,7 @@ body {
 /* ------------------- Instruments --------------------- */
 
 .instrument-container {
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -50,8 +51,8 @@ body {
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
-  width: 37%;
-  max-height: 37%;
+  width: 38%;
+  max-height: 38%;
   transition: all 0.25s ease;
   padding: 2%;
   border-radius: 50%;
@@ -112,12 +113,24 @@ body {
   align-self: flex-start;
 }
 
+#guitar.active img {
+  content: url("../media/imgs/guitar-animated.gif");
+}
+
 #drums {
   align-self: center;
 }
 
+#drums.active img {
+  content: url("../media/imgs/drums-animated.gif");
+}
+
 #bass {
   align-self: flex-end;
+}
+
+#bass.active img {
+  content: url("../media/imgs/bass-animated.gif");
 }
 
 .save {
@@ -167,6 +180,7 @@ body {
   align-items: center;
   justify-content: flex-start;
   overflow: hidden;
+  flex: 1 1 auto;
   background-color: #FFF;
   box-shadow: 0 2px 3px #666;
   border-top-right-radius: 3px;
@@ -210,6 +224,7 @@ body {
 
 .controls img {
   flex: 3;
+  object-fit: contain;
 }
 
 /* ---------------- Utility ------------------- */
