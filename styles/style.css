@@ -177,8 +177,9 @@ body {
 .controls {
   display: flex;
   flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-start;
+  align-items: flex-end;
+  justify-content: space-around;
+  padding-left: 10px;
   overflow: hidden;
   flex: 1 1 auto;
   background-color: #FFF;
@@ -188,19 +189,36 @@ body {
   margin-bottom: 5px;
 }
 
+.left-controls {
+  flex: 1 1 40%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  margin: auto;
+}
+
 .controls-btn {
-  flex: 1;
-  margin: 0 1% 0 1%;
-  max-width: 10%;
+  flex: 0 1 auto;
+  width: 30%;
+  padding: 2% 0 2% 0;
+}
+
+.right-controls {
+    flex: 2 1 60%;
+    display: flex;
+    flex-flow: row wrap;
 }
 
 .title {
-  flex: 0 1 auto;
+  flex: 1 1 100%;
+  align-self: flex-start;
   font-family: Impact;
   font-weight: normal;
   letter-spacing: 7px;
   text-align: center;
-  margin: 0 2% 0 2%;
+  margin-bottom: -4%;
+  margin-right: 50%;
+  z-index: 1;
 }
 
 .title::first-letter {
@@ -223,7 +241,9 @@ body {
 }
 
 .controls img {
-  flex: 3;
+  flex: 0 1 100%;
+  align-self: flex-end;
+  max-width: 100%;
   object-fit: contain;
 }
 
