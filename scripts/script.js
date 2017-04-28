@@ -21,9 +21,7 @@ let drumsRecording = [];
 let guitarRecording = [];
 let bassRecording = [];
 
-// Welcome
-const welcomeScreen = document.getElementById('welcome');             // Welcome screen container
-const welcomeButton = document.getElementById('welcome-btn');         // 'Let's Rock!' button
+// Forget
 const forgetButton = document.getElementById('forget-btn');          // 'Forget about me' button
 
 // Forget
@@ -386,18 +384,14 @@ function handleSaveClick (e) {
 // Removes username and all recordings from localStorage if isForget is true
 function handleForgetClick (e) {
   if (isForget) {
-    localStorage.removeItem('username');
     localStorage.removeItem('drumsRecording');
     localStorage.removeItem('guitarRecording');
     localStorage.removeItem('bassRecording');
     return;
   }
   if (checkStorage()) {
-    if (!localStorage.username) {
-      return;
-    }
     // Change text of forgetButton to display a warning message
-    e.srcElement.textContent = 'Delete EVERYTHING?';
+    e.srcElement.textContent = 'Delete Recordings?';
     // Remove old event listener
     e.srcElement.removeEventListener('click', removeEventListener);
     // Add new event listener
@@ -414,27 +408,6 @@ function forgetData () {
   location.reload();
 }
 
-// ---------------------------- WELCOME -------------------------- //
-
-function welcome () {
-  if (checkStorage()) {
-    // If username is already stored
-    if (localStorage.username) {
-      welcomeScreen.classList.remove('active');                           // Don't display welcome screen
-    } else {
-      welcomeScreen.classList.add('active');      // Show welcome screen
-    }
-  }
-}
-
-// Gets username from form and saves it in localStorage.username
-function handleWelcomeClick () {
-  if (checkStorage()) {
-    const username = document.getElementById('username').value;
-    localStorage.username = username;
-  }
-}
-
 // App event Listeners
 drummer.addEventListener('click', toggleActive);    // Listen for drums to be clicked
 guitarist.addEventListener('click', toggleActive);   // Listen for guitar to be clicked
@@ -446,8 +419,5 @@ recordButton.addEventListener('click', handleRecordClick);
 playButton.addEventListener('click', handlePlayClick);
 saveButtons.forEach(button => button.addEventListener('click', handleSaveClick));
 
-// Welcome screen event Listeners
-welcomeButton.addEventListener('click', handleWelcomeClick);   // Listen for welcome button to be pressed
+// Forget button event listeners
 forgetButton.addEventListener('click', handleForgetClick);     // Listen for forgetButton to be clicked
-
-welcome();
