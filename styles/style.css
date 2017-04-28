@@ -53,6 +53,7 @@ body {
   flex: auto;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 10%;
   transition: all 0.25s ease;
   z-index: 1;
 }
@@ -64,7 +65,7 @@ body {
   width: 37%;
   max-height: 37%;
   transition: all 0.25s ease;
-  padding: 15px;
+  padding: 2%;
   border-radius: 50%;
 }
 
@@ -74,6 +75,8 @@ body {
   justify-content: center;
   align-items: center;
   font-weight: bold;
+  height: 15%;
+  padding: 0 5% 0 5%;
 }
 
 .keys button.playing {
