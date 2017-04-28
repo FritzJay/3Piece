@@ -23,9 +23,8 @@ let bassRecording = [];
 
 // Forget
 const forgetButton = document.getElementById('forget-btn');          // 'Forget about me' button
-
-// Forget
 let isForget = false;
+let isSaveOver = false;
 
 // ----------------------- APP ----------------------- /*
 function playSound (e) {
@@ -82,6 +81,8 @@ function removeActive (element) {
     // If save button exist remove class from it
     if (saveButton) {
       saveButton.classList.remove('active');
+      saveButton.textContent = 'Save';
+      isSaveOver = false;
     }
     // If keys exist remove class and event listener from keys
     if (keys) {
@@ -281,7 +282,7 @@ function handleRecordClick () {
       // If i is 0, set record to active
       recordButton.classList.remove('primed');
       recordButton.classList.add('active');
-      recordButton.textContent = 'Rock On!';
+      recordButton.textContent = 'Stop';
       startRecording = Date.now();
       isRecording = true;
       clearInterval(countdown);
@@ -332,6 +333,9 @@ function playRecording (recording, type) {
 }
 
 function handleSaveClick (e) {
+  // If localStorage isn't supported stop function now
+  if (!checkStorage()) { return };
+
   const instrument = e.srcElement.parentElement.parentElement;
   const saveText = instrument.querySelector('.save-text');
   let recordingType;
@@ -354,24 +358,33 @@ function handleSaveClick (e) {
       console.log('Error: Incorrect recording type in handleSaveClick');
       break;
   }
-  // If recording exists, save it to localStorage as JSON
+
+  // If recording exists
   if (recordingType.length > 0) {
-    if (checkStorage()) {
-      // Save recording as a JSON object in order to parse correctly later
-      let recording = '['
-      recordingType.forEach(node => {
-        recording += `{ "button":"${node.button}" , "timestamp":"${node.timestamp}" , "start":"${node.start}" },`
-      });
-      recording = recording.substring(0, recording.length - 1);    // Take off last comma so it doesn't effect json.parse
-      recording += ' ]';
-      localStorage[localStorageType] = recording;
-      // Display save message
-      saveText.innerHtml = 'Saved.';
-      saveText.classList.add('active');
-      saveText.addEventListener('transitionend', removeActive);
-      // Refresh saved data so it displays in instrument
-      refreshSavedData(instrument);
+    // If this is the first click of the save button
+    if (!isSaveOver && localStorage[localStorageType] !== undefined) {
+      isSaveOver = true;
+      e.srcElement.textContent = 'Save over?';
+      return;
+    } else if (isSaveOver) {
+      isSaveOver = false;
+      e.srcElement.textContent = 'Save'
     }
+
+    // Save recording as a JSON object in order to parse correctly later
+    let recording = '['
+    recordingType.forEach(node => {
+      recording += `{ "button":"${node.button}" , "timestamp":"${node.timestamp}" , "start":"${node.start}" },`
+    });
+    recording = recording.substring(0, recording.length - 1);    // Take off last comma so it doesn't effect json.parse
+    recording += ' ]';
+    localStorage[localStorageType] = recording;
+    // Display save message
+    saveText.innerHtml = 'Saved.';
+    saveText.classList.add('active');
+    saveText.addEventListener('transitionend', removeActive);
+    // Refresh saved data so it displays in instrument
+    refreshSavedData(instrument);
   } else {
     // Display save message
     saveText.innerHTML = 'You haven\'t recorded anything yet';

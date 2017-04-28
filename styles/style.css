@@ -294,6 +294,9 @@ button:active {
   }
 
   /* ---------------- Small Screen Controls ------------------ */
+  .controls {
+    margin-bottom: 12px;
+  }
 
   .right-controls {
     flex: 1 1 35%;

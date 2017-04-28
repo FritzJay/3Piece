@@ -1,3 +1,1 @@
-Clear previous recording of active instrument on save-btn click
-
 find a way to clearInterval in record-btn on second click
