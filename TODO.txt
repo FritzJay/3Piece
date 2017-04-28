@@ -1,14 +1,3 @@
-Clear previous recording on save-btn click
+Clear previous recording of active instrument on save-btn click
 
 find a way to clearInterval in record-btn on second click
-
-make animation move when button is played
-<<<<<<< HEAD
-
-Make top bar flexible (put the background into an image element and adjust flex accordingly)
-
-make custom album name
-
-position instruments correctly
-=======
->>>>>>> 826a6d52d6ccbc75637912292c3dc642abb4f597

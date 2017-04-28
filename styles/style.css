@@ -203,16 +203,16 @@ body {
   margin: auto;
 }
 
+.right-controls {
+  flex: 2 1 60%;
+  display: flex;
+  flex-flow: row wrap;
+}
+
 .controls-btn {
   flex: 0 1 auto;
   width: 30%;
   padding: 2% 0 2% 0;
-}
-
-.right-controls {
-    flex: 2 1 60%;
-    display: flex;
-    flex-flow: row wrap;
 }
 
 .title {
@@ -233,7 +233,7 @@ body {
 }
 
 .controls-btn.primed {
-  background-color: green;
+  background-color: #40ff00;
   font-weight: bold;
 }
 
