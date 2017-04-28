@@ -1,50 +1,26 @@
 body {
+  /*
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-content: center;
+  */
   background-color: white;
   font-family: "Arial Black", Gadget, sans-serif;
 }
 
 .app {
   background-image: url("../media/imgs/AlbumCover.png");
-  background-position: 50% 0%;
+  background-position: 50%;
   background-repeat: no-repeat;
   width: 1500px;
   height: 1000px;
 }
 
-/* ---------------- Utility ------------------- */
-
-.active {
-  opacity: 1.0;
-  visibility: visible;
-}
-
-button {
-  background-color: white;
-  background-color: rgba(0, 0, 0, 0);
-  border-radius: 3px;
-  border: 2px solid black;
-  padding: 15px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
-  color: black;
-  transition: all 0.1s ease;
-}
-
-button:focus {
-  outline: none;
-}
-
-button:hover {
-  opacity: 0.84;
-}
-
-button:active {
-  opacity: 0.54;
-  transform: translateY(2px);
-}
-
 /* ------------------- Instruments --------------------- */
 
 .instrument-container {
+  position: absolute;
   display: flex;
   flex-flow: row wrap;
   align-content: space-around;
@@ -252,4 +228,35 @@ button:active {
 .welcome button {
   border-radius: 5px;
   width: 100%;
+}
+
+/* ---------------- Utility ------------------- */
+
+.active {
+  opacity: 1.0;
+  visibility: visible;
+}
+
+button {
+  background-color: white;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  border: 2px solid black;
+  padding: 15px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: black;
+  transition: all 0.1s ease;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  opacity: 0.84;
+}
+
+button:active {
+  opacity: 0.54;
+  transform: translateY(2px);
 }

@@ -7,3 +7,7 @@ find a way to clearInterval in record-btn on second click
 make animation move when button is played
 
 Make top bar flexible (put the background into an image element and adjust flex accordingly)
+
+make custom album name
+
+position instruments correctly
