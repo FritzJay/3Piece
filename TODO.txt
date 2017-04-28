@@ -1,1 +1,1 @@
-find a way to clearInterval in record-btn on second click
+Clear old saved text on successful save

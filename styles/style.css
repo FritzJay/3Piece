@@ -286,7 +286,7 @@ button:active {
 
 /* ------------------- Small Screens ---------------------- */
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
 
   .background .background-image {
     content: url("../media/imgs/Cassette.png");
