@@ -4,56 +4,46 @@ body {
 }
 
 .app {
-  background-image: url("../media/imgs/AlbumCover.png");
-  background-position: 50% 0%;
-  background-repeat: no-repeat;
-  width: 1500px;
-  height: 1000px;
+  display: flex;
+  flex-direction: column;
 }
 
-/* ---------------- Utility ------------------- */
-
-.active {
-  opacity: 1.0;
-  visibility: visible;
+.background {
+  flex: 1 1 auto;
+  position: relative;
+  display: block;
 }
 
-button {
-  background-color: white;
-  background-color: rgba(0, 0, 0, 0);
-  border-radius: 3px;
-  border: 2px solid black;
-  padding: 15px;
-  font-family: "Comic Sans MS", cursive, sans-serif;
-  color: black;
-  transition: all 0.1s ease;
+.background img {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  top: 0;
+  left: 0;
 }
 
-button:focus {
-  outline: none;
+.album-front {
+  position: absolute;
+  width: 46%;
+  top: 5%;
+  left: 37%;
 }
 
-button:hover {
-  opacity: 0.84;
+.album-front:after {
+  content: "";
+  display: block;
+  padding-bottom: 100%;
 }
-
-button:active {
-  opacity: 0.54;
-  transform: translateY(2px);
-}
-
 /* ------------------- Instruments --------------------- */
 
 .instrument-container {
+  flex: 0 1 auto;
   display: flex;
   flex-flow: row wrap;
+  justify-content: center;
   align-content: space-around;
-  justify-content: space-around;
-  top: 178px;
-  left: 585px;
   position: absolute;
-  width: 650px;
-  height: 650px;
+  height: 100%;
 }
 
 .keys {
@@ -64,6 +54,18 @@ button:active {
   flex-direction: row;
   justify-content: space-between;
   transition: all 0.25s ease;
+  z-index: 1;
+}
+
+.instrument {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  width: 40%;
+  max-height: 40%;
+  transition: all 0.25s ease;
+  padding: 15px;
+  border-radius: 50%;
 }
 
 .keys button {
@@ -84,22 +86,12 @@ button:active {
   font-weight: normal;
 }
 
-.instrument {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-between;
-  transition: all 0.25s ease;
-  max-width: 250px;
-  max-height: 250px;
-  padding: 15px;
-  border-radius: 50%;
-}
-
 .instrument img {
   margin: 5px 0 5px 0;
   align-self: center;
   max-width: 100%;
   max-height: 100%;
+  z-index: 0;
 }
 
 .instrument:hover {
@@ -171,15 +163,12 @@ button:active {
   flex-flow: row nowrap;
   align-items: center;
   justify-content: flex-start;
-  width: 1500px;
-  height: 135px;
+  overflow: hidden;
   background-color: #FFF;
-  background-image: url('../media/imgs/arm.jpg');
-  background-repeat: no-repeat;
-  background-position: 99% 5%;
   box-shadow: 0 2px 3px #666;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
+  margin-bottom: 5px;
 }
 
 .controls-btn {
@@ -212,6 +201,10 @@ button:active {
 .controls-btn.active {
   background-color: red;
   transform: scale(1.25);
+}
+
+.controls img {
+  flex: 3;
 }
 
 /* ---------------- Welcome Screen ------------------- */
@@ -252,4 +245,35 @@ button:active {
 .welcome button {
   border-radius: 5px;
   width: 100%;
+}
+
+/* ---------------- Utility ------------------- */
+
+.active {
+  opacity: 1.0;
+  visibility: visible;
+}
+
+button {
+  background-color: white;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  border: 2px solid black;
+  padding: 15px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: black;
+  transition: all 0.1s ease;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  opacity: 0.84;
+}
+
+button:active {
+  opacity: 0.54;
+  transform: translateY(2px);
 }
