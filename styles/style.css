@@ -1,10 +1,4 @@
 body {
-  /*
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-content: center;
-  */
   background-color: white;
   font-family: "Arial Black", Gadget, sans-serif;
 }
@@ -51,6 +45,7 @@ body {
   align-content: space-around;
   position: absolute;
   height: 100%;
+  width: 100%;
 }
 
 .instrument {
