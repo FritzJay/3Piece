@@ -38,7 +38,6 @@ body {
 /* ------------------- Instruments --------------------- */
 
 .instrument-container {
-  flex: 1 1 auto;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
@@ -145,6 +144,7 @@ body {
   visibility: hidden;
   opacity: 0;
   transition: all 0.25s ease;
+  z-index: 1;
 }
 
 .save-text {
