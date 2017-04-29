@@ -1,3 +1,2 @@
-Get ALL sounds
 
-Make audio preload when musician is activated
+Add a countdown

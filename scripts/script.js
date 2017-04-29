@@ -108,6 +108,8 @@ function addActive (element) {
   if (element.id === 'drums' || element.id === 'guitar' || element.id === 'bass') {
     // Get keys of element
     const keys = element.querySelectorAll('.keys button');
+    // Get audio elements
+    const audio = element.querySelectorAll('audio');
     // Get saveButton of element
     const saveButton = element.querySelector('.save-btn');
     // Get saveData of element
@@ -122,6 +124,8 @@ function addActive (element) {
       keys[0].parentElement.classList.add('active');
       keys.forEach(key => key.addEventListener('click', playSound));
     }
+    // Set all audio keys to preload
+    audio.forEach((a) => (a.preload = 'auto'));
     if (checkStorage()) {
       // Cycle through all instruments
       instruments.forEach((instrument) => {
