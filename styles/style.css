@@ -1,4 +1,10 @@
 body {
+  /*
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-content: center;
+  */
   background-color: white;
   font-family: "Arial Black", Gadget, sans-serif;
 }
@@ -15,7 +21,7 @@ body {
   margin: auto;
 }
 
-.background img {
+.background .background-image {
   position: relative;
   max-width: 100%;
   max-height: 100%;
@@ -152,7 +158,7 @@ body {
   flex: 3;
   opacity: 0;
   transition: all 1s ease;
-  color: red;
+  color: #ff4000;
   font-size: 8px;
 }
 
@@ -197,16 +203,16 @@ body {
   margin: auto;
 }
 
+.right-controls {
+  flex: 2 1 60%;
+  display: flex;
+  flex-flow: row wrap;
+}
+
 .controls-btn {
   flex: 0 1 auto;
   width: 30%;
   padding: 2% 0 2% 0;
-}
-
-.right-controls {
-    flex: 2 1 60%;
-    display: flex;
-    flex-flow: row wrap;
 }
 
 .title {
@@ -227,7 +233,7 @@ body {
 }
 
 .controls-btn.primed {
-  background-color: green;
+  background-color: #40ff00;
   font-weight: bold;
 }
 
@@ -236,7 +242,7 @@ body {
 }
 
 .controls-btn.active {
-  background-color: red;
+  background-color: #ff4000;
   transform: scale(1.25);
 }
 
@@ -280,26 +286,127 @@ button:active {
 
 /* ------------------- Small Screens ---------------------- */
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
 
-  .background img {
-    transform: rotate(-90deg);
-    margin-top: 5%;
-    margin-left: 5%;
+  .background .background-image {
+    content: url("../media/imgs/Cassette.png");
+    z-index: -1;
   }
 
-  /* ---------------- Controls ---------------------- */
-
+  /* ---------------- Small Screen Controls ------------------ */
   .controls {
-    justify-content: space-around;
+    margin-bottom: 12px;
   }
 
-  .controls-btn {
-    max-width: none;
-    margin-bottom: 5px;
+  .right-controls {
+    flex: 1 1 35%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    margin: auto;
+  }
+
+  .left-controls {
+    flex: 1 1 65%;
+    margin-top: 2%;
+    justify-content: space-between;
+  }
+
+  .left-controls button {
+    padding: 5px 5px 5px 5px;
+  }
+
+  .left-controls p {
+    width: 100%;
+    text-align: center;
+  }
+
+  .title {
+    flex: 1 1 auto;
+    font-family: Impact;
+    font-weight: normal;
+    letter-spacing: 7px;
+    text-align: center;
+    margin: auto;
+  }
+
+  .title::first-letter {
+    color: #ff4000;
   }
 
   .controls img {
     display: none;
   }
+
+  /* -------------------- Small Screen Instruments ---------------- */
+
+  .album-front {
+    display: flex;
+    border-radius: 7px;
+    flex-flow: column nowrap;
+    position: absolute;
+    width: 68%;
+    height: 91%;
+    top: 4%;
+    left: 7%;
+  }
+
+  .instrument-container {
+    flex-flow: column nowrap;
+    justify-content: center;
+    margin-top: 0;
+  }
+
+  .instrument {
+    width: 80%;
+    max-height: 100%;
+    margin-top: -5%;
+  }
+
+  #guitar {
+    align-self: center;
+  }
+
+  #drums {
+    align-self: center;
+  }
+
+  #bass {
+    align-self: center;
+  }
+
+  .instrument button {
+    background-color: white;
+  }
+}
+
+/* ---------------- Utility ------------------- */
+
+.active {
+  opacity: 1.0;
+  visibility: visible;
+}
+
+button {
+  background-color: white;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 3px;
+  border: 2px solid black;
+  padding: 15px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  color: black;
+  transition: all 0.1s ease;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  opacity: 0.84;
+}
+
+button:active {
+  opacity: 0.54;
+  transform: translateY(2px);
 }
