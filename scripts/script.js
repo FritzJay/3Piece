@@ -269,21 +269,35 @@ function handleRecordClick () {
     isRecording = false;
     return;
   }
-  // Plays countdown before recording
+  // Play countdown before recording
+  // Get controls div
+  let controls = document.querySelector('.controls');
+  // Get audio assosciated with controls
+  let audio = controls.querySelectorAll('audio');
+  // Prime recordButton
   recordButton.classList.add('primed');
   // Counts down from 3
   let i = 3;
+  // Counts up from 1
+  let audioi = 0;
   // Update recordButton before interval to make click feel more responsive
   recordButton.textContent = i;
   // Pulse button on first countdown
   pulse();
+  // Play the first countdown
+  audio[0].play();
   let countdown = setInterval(function () {
     i--;
+    audioi++;
     if (i > 0) {
       // Pulse button
       pulse();
       recordButton.textContent = i;
+      // Play countdown audio
+      audio[audioi].play();
     } else {
+      // Play last countdown
+      audio[audio.length - 1].play();
       // If i is 0, set record to active
       recordButton.classList.remove('primed');
       recordButton.classList.add('active');
@@ -292,7 +306,7 @@ function handleRecordClick () {
       isRecording = true;
       clearInterval(countdown);
     }
-  }, 700);
+  }, 500);
 }
 
 // Check's if anything is stored in localStorage and plays it if it is.
