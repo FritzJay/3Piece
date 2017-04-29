@@ -198,7 +198,7 @@ function refreshSavedData (instrument) {
     // If savedDisplay isn't displaying the date already
     if (savedDisplay.innerHTML.indexOf(`<li>${date}</li>`) === -1) {
       // Add saved data to savedDisplay as a date
-      savedDisplay.innerHTML += `<li>${date}</li>`;
+      savedDisplay.innerHTML = `<li>${date}</li>`;
     }
   }
 }
