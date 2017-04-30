@@ -26,6 +26,11 @@ const forgetButton = document.getElementById('forget-btn');          // 'Forget 
 let isForget = false;
 let isSaveOver = false;
 
+// Tempo
+const tempoSlider = document.getElementById('tempo');
+const minTempo = 1000;
+let tempo = minTempo - parseInt(tempoSlider.value);
+
 // ----------------------- APP ----------------------- /*
 function playSound (e) {
   // Return if there are no active instruments
@@ -306,7 +311,7 @@ function handleRecordClick () {
       isRecording = true;
       clearInterval(countdown);
     }
-  }, 500);
+  }, tempo);            // User the tempo slider to determine the countdown speed
 }
 
 // Check's if anything is stored in localStorage and plays it if it is.
@@ -451,6 +456,11 @@ function forgetData () {
   location.reload();
 }
 
+// Set's tempo to whatever the slider is at
+function handleTempoChange () {
+  tempo = minTempo - parseInt(tempoSlider.value);
+}
+
 // App event Listeners
 drummer.addEventListener('click', toggleActive);    // Listen for drums to be clicked
 guitarist.addEventListener('click', toggleActive);   // Listen for guitar to be clicked
@@ -464,3 +474,6 @@ saveButtons.forEach(button => button.addEventListener('click', handleSaveClick))
 
 // Forget button event listeners
 forgetButton.addEventListener('click', handleForgetClick);     // Listen for forgetButton to be clicked
+
+// Tempo Slider event listeners
+tempoSlider.addEventListener('change', handleTempoChange);    // Listen for tempoSlider changes
