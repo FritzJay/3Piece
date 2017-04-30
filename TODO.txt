@@ -1,2 +1,2 @@
-
-Add a countdown
+add tempo
+add stop

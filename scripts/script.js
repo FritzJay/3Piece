@@ -337,16 +337,27 @@ function handlePlayClick () {
 
 // Set's a timeout for each node so that it plays at the correct time and plays it
 function playRecording (recording, type) {
+  // Disable the button early
+  playButton.disabled = true;
   // Get the element of the instrument to be played
   let element = document.getElementById(type);
   // Set a timeout for each node of the recording array
   recording.forEach(node => {
     setTimeout(function () {
+      // Disable the button on the beginning of each node -
+      // so the button continues to be disabled even if a shorter recording -
+      // has ended
+      playButton.disabled = true;
+      // Get audio element of current node
       let audio = element.querySelector(`audio[data-key="${node.button}"]`)
       // Reset audio.currentTime to 0. This allows us to play sounds without waiting for currently playing sound to end
       audio.currentTime = 0;
       // play audio
       audio.play();
+      // If this is the last node to play, set isRecording to false
+      if (node === recording[recording.length - 1]) {
+        playButton.disabled = false;
+      }
     }, (node.timestamp - node.start));
   });
 }

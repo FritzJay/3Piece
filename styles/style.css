@@ -405,3 +405,7 @@ button:active {
   opacity: 0.54;
   transform: translateY(2px);
 }
+
+button:disabled {
+  opacity: 0.54;
+}
