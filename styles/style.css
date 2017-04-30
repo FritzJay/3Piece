@@ -201,19 +201,41 @@ body {
 
 .middle-controls {
   flex: 1 1 auto;
-  display flex;
-  flex-flow: column-reverse;
+  display: flex;
+  flex-flow: column;
   margin-left: 3%;
   align-content: flex-end;
   justify-content: flex-end;
   align-self: center;
 }
 
+.middle-controls label {
+  background-color: #fff;
+  border-bottom: none;
+  padding: 5px;
+}
+
+.slider-container {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-content: center;
+  background-color: #fff;
+  background-image: url("../media/imgs/tempo.png");
+  background-position: center;
+  background-size: cover;
+  overflow: hidden;
+  border-top: none;
+  padding-top: 1px;
+  padding-bottom: 5px;
+  width: 100%;
+}
+
 input[type=range][orient=vertical] {
-  margin-left: 35%;
+  margin: auto;
   writing-mode: bt-lr; /* IE */
   -webkit-appearance: slider-vertical; /* WebKit */
-  width: 8px;
+  width: 15px;
   height: 60%
 }
 
