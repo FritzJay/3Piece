@@ -138,7 +138,6 @@ function addActive (element) {
       });
     }
   } else {
-    console.log(element);
     // start button transition via css
     element.classList.add('active');
     // listen for button css transition end
@@ -373,6 +372,15 @@ function handleSaveClick (e) {
 
   const instrument = e.srcElement.parentElement.parentElement;
   const saveText = instrument.querySelector('.save-text');
+
+  // If user is still recording then
+  if (isRecording) {
+    // Display a message to the user
+    saveText.innerHTML = 'Finish recording first.';
+    addActive(saveText);
+    return;
+  }
+
   let recordingType;
   let localStorageType;
   // Get recording type
@@ -415,16 +423,14 @@ function handleSaveClick (e) {
     recording += ' ]';
     localStorage[localStorageType] = recording;
     // Display save message
-    saveText.innerHtml = 'Saved.';
-    saveText.classList.add('active');
-    saveText.addEventListener('transitionend', removeActive);
+    saveText.innerHTML = 'Saved.';
+    addActive(saveText);
     // Refresh saved data so it displays in instrument
     refreshSavedData(instrument);
   } else {
     // Display save message
     saveText.innerHTML = 'You haven\'t recorded anything yet';
-    saveText.classList.add('active');
-    saveText.addEventListener('transitionend', removeActive);
+    addActive(saveText);
   }
 }
 

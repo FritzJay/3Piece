@@ -148,13 +148,14 @@ body {
 }
 
 .save-text {
-  margin-left: 15px;
-  margin-bottom: 15px;
+  margin-left: 5%;
+  margin-bottom: 10%;
   flex: 3;
   opacity: 0;
   transition: all 1s ease;
   color: #ff4000;
   font-size: 8px;
+  white-space: nowrap;
 }
 
 .saved-data {
