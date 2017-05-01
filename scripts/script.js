@@ -27,6 +27,11 @@ const forgetButton = document.getElementById('forget-btn');          // 'Forget 
 let isForget = false;
 let isSaveOver = false;
 
+// Tempo
+const tempoSlider = document.getElementById('tempo');
+const minTempo = 1000;
+let tempo = minTempo - parseInt(tempoSlider.value);
+
 // ----------------------- APP ----------------------- /*
 function playSound (e) {
   // Return if there are no active instruments
@@ -109,6 +114,8 @@ function addActive (element) {
   if (element.id === 'drums' || element.id === 'guitar' || element.id === 'bass') {
     // Get keys of element
     const keys = element.querySelectorAll('.keys button');
+    // Get audio elements
+    const audio = element.querySelectorAll('audio');
     // Get saveButton of element
     const saveButton = element.querySelector('.save-btn');
     // Get saveData of element
@@ -123,6 +130,8 @@ function addActive (element) {
       keys[0].parentElement.classList.add('active');
       keys.forEach(key => key.addEventListener('click', playSound));
     }
+    // Set all audio keys to preload
+    audio.forEach((a) => (a.preload = 'auto'));
     if (checkStorage()) {
       // Cycle through all instruments
       instruments.forEach((instrument) => {
@@ -200,7 +209,7 @@ function refreshSavedData (instrument) {
     // If savedDisplay isn't displaying the date already
     if (savedDisplay.innerHTML.indexOf(`<li>${date}</li>`) === -1) {
       // Add saved data to savedDisplay as a date
-      savedDisplay.innerHTML += `<li>${date}</li>`;
+      savedDisplay.innerHTML = `<li>${date}</li>`;
     }
   }
 }
@@ -266,21 +275,35 @@ function handleRecordClick () {
     isRecording = false;
     return;
   }
-  // Plays countdown before recording
+  // Play countdown before recording
+  // Get controls div
+  let controls = document.querySelector('.controls');
+  // Get audio assosciated with controls
+  let audio = controls.querySelectorAll('audio');
+  // Prime recordButton
   recordButton.classList.add('primed');
   // Counts down from 3
   let i = 3;
+  // Counts up from 1
+  let audioi = 0;
   // Update recordButton before interval to make click feel more responsive
   recordButton.textContent = i;
   // Pulse button on first countdown
   pulse();
+  // Play the first countdown
+  audio[0].play();
   let countdown = setInterval(function () {
     i--;
+    audioi++;
     if (i > 0) {
       // Pulse button
       pulse();
       recordButton.textContent = i;
+      // Play countdown audio
+      audio[audioi].play();
     } else {
+      // Play last countdown
+      audio[audio.length - 1].play();
       // If i is 0, set record to active
       recordButton.classList.remove('primed');
       recordButton.classList.add('active');
@@ -289,7 +312,7 @@ function handleRecordClick () {
       isRecording = true;
       clearInterval(countdown);
     }
-  }, 700);
+  }, tempo);            // User the tempo slider to determine the countdown speed
 }
 
 // Check's if anything is stored in localStorage and plays it if it is.
@@ -320,16 +343,27 @@ function handlePlayClick () {
 
 // Set's a timeout for each node so that it plays at the correct time and plays it
 function playRecording (recording, type) {
+  // Disable the button early
+  playButton.disabled = true;
   // Get the element of the instrument to be played
   let element = document.getElementById(type);
   // Set a timeout for each node of the recording array
   recording.forEach(node => {
     setTimeout(function () {
+      // Disable the button on the beginning of each node -
+      // so the button continues to be disabled even if a shorter recording -
+      // has ended
+      playButton.disabled = true;
+      // Get audio element of current node
       let audio = element.querySelector(`audio[data-key="${node.button}"]`)
       // Reset audio.currentTime to 0. This allows us to play sounds without waiting for currently playing sound to end
       audio.currentTime = 0;
       // play audio
       audio.play();
+      // If this is the last node to play, set isRecording to false
+      if (node === recording[recording.length - 1]) {
+        playButton.disabled = false;
+      }
     }, (node.timestamp - node.start));
   });
 }
@@ -423,6 +457,11 @@ function forgetData () {
   location.reload();
 }
 
+// Set's tempo to whatever the slider is at
+function handleTempoChange () {
+  tempo = minTempo - parseInt(tempoSlider.value);
+}
+
 // App event Listeners
 drummer.addEventListener('click', toggleActive);    // Listen for drums to be clicked
 guitarist.addEventListener('click', toggleActive);   // Listen for guitar to be clicked
@@ -436,3 +475,6 @@ saveButtons.forEach(button => button.addEventListener('click', handleSaveClick))
 
 // Forget button event listeners
 forgetButton.addEventListener('click', handleForgetClick);     // Listen for forgetButton to be clicked
+
+// Tempo Slider event listeners
+tempoSlider.addEventListener('change', handleTempoChange);    // Listen for tempoSlider changes

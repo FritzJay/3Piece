@@ -1,10 +1,4 @@
 body {
-  /*
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-content: center;
-  */
   background-color: white;
   font-family: "Arial Black", Gadget, sans-serif;
 }
@@ -44,13 +38,13 @@ body {
 /* ------------------- Instruments --------------------- */
 
 .instrument-container {
-  flex: 1 1 auto;
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   align-content: space-around;
   position: absolute;
   height: 100%;
+  width: 100%;
 }
 
 .instrument {
@@ -150,6 +144,7 @@ body {
   visibility: hidden;
   opacity: 0;
   transition: all 0.25s ease;
+  z-index: 1;
 }
 
 .save-text {
@@ -201,6 +196,24 @@ body {
   flex-flow: row wrap;
   justify-content: space-around;
   margin: auto;
+}
+
+.middle-controls {
+  flex: 1 1 auto;
+  display flex;
+  flex-flow: column-reverse;
+  margin-left: 3%;
+  align-content: flex-end;
+  justify-content: flex-end;
+  align-self: center;
+}
+
+input[type=range][orient=vertical] {
+  margin-left: 35%;
+  writing-mode: bt-lr; /* IE */
+  -webkit-appearance: slider-vertical; /* WebKit */
+  width: 8px;
+  height: 60%
 }
 
 .right-controls {
@@ -409,4 +422,8 @@ button:hover {
 button:active {
   opacity: 0.54;
   transform: translateY(2px);
+}
+
+button:disabled {
+  opacity: 0.54;
 }
