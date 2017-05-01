@@ -16,6 +16,7 @@ const recordButton = document.getElementById('record-btn');
 const playButton = document.getElementById('play-btn');
 const saveButtons = document.querySelectorAll('.save-btn');
 let isRecording = false;
+let isPrimed = false;                                 // Used to stop countdown early if user clicks record again
 let startRecording = Date.now();
 let drumsRecording = [];
 let guitarRecording = [];
