@@ -92,7 +92,7 @@ function removeActive (element) {
     // If keys exist remove class and event listener from keys
     if (keys) {
       keys[0].parentElement.classList.remove('active');
-      keys.forEach(key => key.removeEventListener('click touchstart', playSound));
+      keys.forEach(key => key.removeEventListener('click', playSound));
     }
     // Remove save-data active
     if (savedData) {
@@ -127,7 +127,7 @@ function addActive (element) {
     // If keys exist add class and event listener from keys
     if (keys) {
       keys[0].parentElement.classList.add('active');
-      keys.forEach(key => key.addEventListener('click touchstart', playSound));
+      keys.forEach(key => key.addEventListener('click', playSound));
     }
     // Set all audio keys to preload
     audio.forEach((a) => (a.preload = 'auto'));
@@ -299,6 +299,7 @@ function handleRecordClick () {
       recordButton.textContent = i;
       // Play countdown audio
       audio[audioi].play();
+      // Play metronome
     } else {
       // Play last countdown
       audio[audio.length - 1].play();
@@ -308,9 +309,22 @@ function handleRecordClick () {
       recordButton.textContent = 'Stop';
       startRecording = Date.now();
       isRecording = true;
+      setTimeout(playMetronome(), tempo);
+      // Stop countdown
       clearInterval(countdown);
     }
   }, tempo);            // User the tempo slider to determine the countdown speed
+}
+
+function playMetronome () {
+  // While the user isRecording, play the metronome
+  const metronomeClick = document.getElementById('metronome-click');
+  let metronomeInterval = setInterval(function () {
+    metronomeClick.play();
+    if (!isRecording) {
+      clearInterval(metronomeInterval);
+    }
+  }, tempo);
 }
 
 // Check's if anything is stored in localStorage and plays it if it is.
@@ -447,9 +461,9 @@ function handleForgetClick (e) {
     // Change text of forgetButton to display a warning message
     e.srcElement.textContent = 'Delete Recordings?';
     // Remove old event listener
-    e.srcElement.removeEventListener('click touchstart', removeEventListener);
+    e.srcElement.removeEventListener('click', removeEventListener);
     // Add new event listener
-    e.srcElement.addEventListener('click touchstart', forgetData);
+    e.srcElement.addEventListener('click', forgetData);
   }
 }
 
@@ -468,18 +482,18 @@ function handleTempoChange () {
 }
 
 // App event Listeners
-drummer.addEventListener('click touchstart', toggleActive);    // Listen for drums to be clicked
-guitarist.addEventListener('click touchstart', toggleActive);   // Listen for guitar to be clicked
-bassist.addEventListener('click touchstart', toggleActive);     // Listen for bass to be clicked
+drummer.addEventListener('click', toggleActive);    // Listen for drums to be clicked
+guitarist.addEventListener('click', toggleActive);   // Listen for guitar to be clicked
+bassist.addEventListener('click', toggleActive);     // Listen for bass to be clicked
 window.addEventListener('keypress', playSound);   // Listen for ANY key to be pressed
 
 // Recording event listeners
-recordButton.addEventListener('click touchstart', handleRecordClick);
-playButton.addEventListener('click touchstart', handlePlayClick);
-saveButtons.forEach(button => button.addEventListener('click touchstart', handleSaveClick));
+recordButton.addEventListener('click', handleRecordClick);
+playButton.addEventListener('click', handlePlayClick);
+saveButtons.forEach(button => button.addEventListener('click', handleSaveClick));
 
 // Forget button event listeners
-forgetButton.addEventListener('click touchstart', handleForgetClick);     // Listen for forgetButton to be clicked
+forgetButton.addEventListener('click', handleForgetClick);     // Listen for forgetButton to be clicked
 
 // Tempo Slider event listeners
 tempoSlider.addEventListener('change', handleTempoChange);    // Listen for tempoSlider changes
