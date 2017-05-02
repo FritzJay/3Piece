@@ -1,6 +1,6 @@
 body {
-  background-color: white;
   font-family: "Arial Black", Gadget, sans-serif;
+  background-color: white;
 }
 
 .app {
@@ -10,30 +10,30 @@ body {
 
 .background {
   flex: 1 1 auto;
-  position: relative;
   display: block;
+  position: relative;
   margin: auto;
 }
 
 .background .background-image {
   position: relative;
-  max-width: 100%;
-  max-height: 100%;
   top: 0;
   left: 0;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .album-front {
   position: absolute;
-  width: 46%;
   top: 5%;
   left: 37%;
+  width: 46%;
 }
 
 .album-front:after {
-  content: "";
   display: block;
   padding-bottom: 100%;
+  content: "";
 }
 /* ------------------- Instruments --------------------- */
 
@@ -42,6 +42,7 @@ body {
   flex-flow: row wrap;
   justify-content: center;
   align-content: space-around;
+
   position: absolute;
   height: 100%;
   width: 100%;
@@ -51,11 +52,13 @@ body {
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
+
   width: 38%;
   max-height: 38%;
-  transition: all 0.25s ease;
   padding: 2%;
+
   border-radius: 50%;
+  transition: all 0.25s ease;
 }
 
 .instrument:hover {
@@ -70,15 +73,17 @@ body {
 }
 
 .keys {
-  opacity: 0;
-  visibility: hidden;
   display: flex;
-  flex: auto;
   flex-direction: row;
   justify-content: space-between;
+
+  flex: auto;
   margin-bottom: 10%;
-  transition: all 0.25s ease;
   z-index: 1;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
 }
 
 .keys button {
@@ -86,14 +91,17 @@ body {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
+
   height: 15%;
   padding: 0 5% 0 5%;
+
+  font-weight: bold;
 }
 
 .keys button.playing {
-    box-shadow: 0px 0px 10px orange;
-    transform: scale(1.25);
+  transform: scale(1.25);
+
+  box-shadow: 0px 0px 10px orange;
 }
 
 .key-description {
@@ -102,8 +110,8 @@ body {
 }
 
 .instrument img {
-  margin: 5px 0 5px 0;
   align-self: center;
+  margin: 5px 0 5px 0;
   max-width: 100%;
   max-height: 100%;
   z-index: 0;
@@ -141,21 +149,24 @@ body {
 
 .save-btn {
   flex: 1;
+
+  z-index: 1;
+
   visibility: hidden;
   opacity: 0;
   transition: all 0.25s ease;
-  z-index: 1;
 }
 
 .save-text {
+  white-space: nowrap;
+  flex: 3;
   margin-left: 5%;
   margin-bottom: 10%;
-  flex: 3;
+
   opacity: 0;
-  transition: all 1s ease;
   color: #ff4000;
   font-size: 8px;
-  white-space: nowrap;
+  transition: all 1s ease;
 }
 
 .saved-data {
@@ -163,6 +174,7 @@ body {
   flex-flow: column nowrap;
   align-items: flex-end;
   justify-content: center;
+
   visibility: hidden;
   opacity: 0;
   color: black;
@@ -181,38 +193,42 @@ body {
   flex-flow: row nowrap;
   align-items: flex-end;
   justify-content: space-around;
-  padding-left: 10px;
   overflow: hidden;
+
   flex: 1 1 auto;
+  margin-bottom: 5px;
+  padding-left: 10px;
+
   background-color: #FFF;
   box-shadow: 0 2px 3px #666;
   border-top-right-radius: 3px;
   border-top-left-radius: 3px;
-  margin-bottom: 5px;
 }
 
 .left-controls {
-  flex: 1 1 40%;
   display: flex;
   flex-flow: row wrap;
   justify-content: space-around;
+
   margin: auto;
+  flex: 1 1 40%;
 }
 
 .middle-controls {
-  flex: 1 1 auto;
   display: flex;
   flex-flow: column;
-  margin-left: 3%;
   align-content: flex-end;
   justify-content: flex-end;
+
+  flex: 1 1 auto;
   align-self: center;
+  margin-left: 3%;
 }
 
 .middle-controls label {
+  padding: 5px;
   background-color: #fff;
   border-bottom: none;
-  padding: 5px;
 }
 
 .slider-container {
@@ -220,29 +236,33 @@ body {
   flex-flow: row;
   justify-content: center;
   align-content: center;
+  overflow: hidden;
+
+  padding-top: 1px;
+  padding-bottom: 5px;
+  width: 100%;
+
   background-color: #fff;
   background-image: url("../media/imgs/tempo.png");
   background-position: center;
   background-size: cover;
-  overflow: hidden;
   border-top: none;
-  padding-top: 1px;
-  padding-bottom: 5px;
-  width: 100%;
 }
 
 input[type=range][orient=vertical] {
   margin: auto;
-  writing-mode: bt-lr; /* IE */
-  -webkit-appearance: slider-vertical; /* WebKit */
   width: 15px;
   height: 60%
+
+  writing-mode: bt-lr; /* IE */
+  -webkit-appearance: slider-vertical; /* WebKit */
 }
 
 .right-controls {
-  flex: 2 1 60%;
   display: flex;
   flex-flow: row wrap;
+
+  flex: 2 1 60%;
 }
 
 .controls-btn {
@@ -252,15 +272,17 @@ input[type=range][orient=vertical] {
 }
 
 .title {
+  text-align: center;
+
   flex: 1 1 100%;
   align-self: flex-start;
-  font-family: Impact;
-  font-weight: normal;
-  letter-spacing: 7px;
-  text-align: center;
   margin-bottom: -4%;
   margin-right: 50%;
   z-index: 1;
+
+  font-family: Impact;
+  font-weight: normal;
+  letter-spacing: 7px;
 }
 
 .title::first-letter {
@@ -278,15 +300,16 @@ input[type=range][orient=vertical] {
 }
 
 .controls-btn.active {
-  background-color: #ff4000;
   transform: scale(1.25);
+
+  background-color: #ff4000;
 }
 
 .controls img {
+  object-fit: contain;
   flex: 0 1 100%;
   align-self: flex-end;
   max-width: 100%;
-  object-fit: contain;
 }
 
 /* ---------------- Utility ------------------- */
@@ -297,11 +320,11 @@ input[type=range][orient=vertical] {
 }
 
 button {
+  padding: 1%;
   background-color: white;
   background-color: rgba(0, 0, 0, 0);
   border-radius: 3px;
   border: 2px solid black;
-  padding: 1%;
   font-family: "Comic Sans MS", cursive, sans-serif;
   color: black;
   transition: all 0.1s ease;
@@ -325,8 +348,9 @@ button:active {
 @media screen and (max-width: 800px) {
 
   .background .background-image {
-    content: url("../media/imgs/Cassette.png");
     z-index: -1;
+
+    content: url("../media/imgs/Cassette.png");
   }
 
   /* ---------------- Small Screen Controls ------------------ */
@@ -335,17 +359,20 @@ button:active {
   }
 
   .right-controls {
-    flex: 1 1 35%;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
+
     margin: auto;
+    flex: 1 1 35%;
   }
 
   .left-controls {
+    display: flex;
+    justify-content: space-between;
+
     flex: 1 1 65%;
     margin-top: 2%;
-    justify-content: space-between;
   }
 
   .left-controls button {
@@ -353,17 +380,20 @@ button:active {
   }
 
   .left-controls p {
-    width: 100%;
     text-align: center;
+
+    width: 100%;
   }
 
   .title {
+    text-align: center;
+
     flex: 1 1 auto;
+    margin: auto;
+
     font-family: Impact;
     font-weight: normal;
     letter-spacing: 7px;
-    text-align: center;
-    margin: auto;
   }
 
   .title::first-letter {
@@ -378,18 +408,23 @@ button:active {
 
   .album-front {
     display: flex;
-    border-radius: 7px;
     flex-flow: column nowrap;
+
     position: absolute;
     width: 68%;
     height: 91%;
     top: 4%;
     left: 7%;
+
+    border-radius: 7px;
   }
 
   .instrument-container {
+    display: flex;
     flex-flow: column nowrap;
     justify-content: center;
+    align-content: center;
+
     margin-top: 0;
   }
 
@@ -400,14 +435,6 @@ button:active {
   }
 
   #guitar {
-    align-self: center;
-  }
-
-  #drums {
-    align-self: center;
-  }
-
-  #bass {
     align-self: center;
   }
 
