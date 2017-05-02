@@ -1,119 +1,61 @@
 /* eslint semi: [0, "never"] */
 /* eslint-env browser */
 
-// Instruments
-const drums = document.getElementById('drums');       // Drums container
-const drummer = drums.querySelector('img');           // Drummer image
-const guitar = document.getElementById('guitar');     // Guitar container
-const guitarist = guitar.querySelector('img');        // Guitarist image
-const bass = document.getElementById('bass');         // Bass container
-const bassist = bass.querySelector('img');            // Bassist image
-const instruments = [drums, guitar, bass];            // Allows me to cycle through instruments to see which one is active
-let isActive = false;                                 // Stop playSound from running if there are no active instruments
-
-// Recording
-const recordButton = document.getElementById('record-btn');     // Record Button
-const playButton = document.getElementById('play-btn');         // Play Button
-const saveButtons = document.querySelectorAll('.save-btn');     // Save buttons on each instrument
-let isSaveOver = false;                                         // Used to display a warning message on the save buttons
-let isRecording = false;                                // Used to stop countdown early if user clicks record again
-let startRecording = Date.now();                        // Used to make the beginning of each recording
-let drumsRecording = [];                                // Holds the RecordNodes of the drums
-let guitarRecording = [];                               // Holds the RecordNodes of the guitar
-let bassRecording = [];                                 // Holds the RecordNodes of the bass
-
-// Forget
-const forgetButton = document.getElementById('forget-btn');          // 'Forget about me' button
-let isForget = false;                                                // Used to display a warning message on forgetButton
-
-// Tempo
-const tempoSlider = document.getElementById('tempo');                // Tempo slider
-const minTempo = 1000;                                               // The largest delay time between metronome interval
-let tempo = minTempo - parseInt(tempoSlider.value);                  // The current tempo as displayed on tempoSlider
-
-// ----------------------- APP ----------------------- /*
-// Plays the sound connected to the event
-function playSound (e) {
-  // Return if there are no active instruments
-  if (!isActive) {
-    return;
-  }
-  // Find active instrument
-  const instrument = instruments.find((inst) => {
-    if (inst.classList.contains('active')) {
-      return inst;
-    };
-  });
-  // Get button. Adjust the querySelector depending on event type
-  let button = (e.type !== 'keypress') ? e.srcElement : instrument.querySelector(`button[data-key="${e.keyCode}"]`);
-  // Return if button is null
-  if (!button) {
-    return;
-  }
-  // Return if buttons parent is active
-  if (!button.parentElement.classList.contains('active')) {
-    return;
-  }
-  // If isRecording, send button and timestamp data to record()
-  if (isRecording) {
-    record(instrument, button, Date.now());
-  }
-  // Get audio with corresponding data-key
-  let audio = instrument.querySelector(`audio[data-key="${button.dataset.key}"]`)
-  // Reset audio.currentTime to 0. This allows us to play sounds without waiting for currently playing sound to end
-  audio.currentTime = 0;
-  // play audio
-  audio.play();
-  // add .playing to button
-  button.classList.add('playing');
-  // remove .playing on transitionend
-  button.addEventListener('transitionend', function () {
-    button.classList.remove('playing');
-  });
-}
-
+// Instrument holds all the necessary elements and methods needed to activate, record, and save recordings of the instrument
 class Instrument {
-  // Takes the container of the instrument (#drums, #guitar, #bass)
+  // Takes the id of the instrument
   // and queries the container for all necessary elements held within
-  constructor (container) {
-    this.id = container.id;
+  constructor (instrumentId) {
+    // Get the div of the instrument
+    this.container = document.getElementById(instrumentId);
+    // Set the id
+    this.id = instrumentId;
+    // The image that you click to active the instrument
+    this.musician = this.container.querySelector('img');
     // Get the keys used to play the instrument
-    this.keys = container.querySelectorAll('.keys button');
+    this.keys = this.container.querySelectorAll('.keys button');
     // Get the saveButton of the instrument
-    this.saveButton = container.querySelector('.saveButton');
+    this.saveButton = this.container.querySelector('.save-btn');
     // Get the savedData of the instrument
-    this.saveData = container.querySelector('.saved-data');
+    this.saveData = this.container.querySelector('.saved-data');
     // Get the audio elements of the instrument
-    this.audio = container.querySelector('audio');
+    this.audio = this.container.querySelectorAll('audio');
     // Set the recordingName which is used to check localStorage
-    this.recordingName = container.id + 'Recording';
+    this.recordingName = this.container.id + 'Recording';
     // Create an empty array to be filled with RecordNodes
     this.recording = [];
-  }
-
+    // Used to display a warning message on the save button
+    this.isSaveOver = false;
+  } // End of constructor
   toggleActive () {
     // If instrument isn't active then add active class
-    if (!this.classList.contains('active')) {
+    if (!this.container.classList.contains('active')) {
       // Set the flag used to determine if sounds should play to true
-      isActive = true;
-      this.addActive();
+      this.isActive = true;
+      this.container.addActive();
     } else {    // Else remove active from the instrument
-      this.removeActive();
+      this.container.removeActive();
       // Set the flag used to determine if sounds should play to false
-      isActive = false;
+      this.isActive = false;
     }
     // Get all other instruments
     const others = instruments.filter(instrument => instrument !== this);
     // Remove .active from all other instruments
     others.forEach((instrument) => instrument.removeActive());
-  }
-
+  } // End of toggleActive
+  /* This was in addActive. Not sure why it was there
+  if (checkStorage()) {
+  // Cycle through all instruments and refresh their saved data
+  instruments.forEach((instrument) => {
+  refreshSavedData(instrument);
+  });
+  */
   // Add .active from the instrument and all its components
   addActive () {
     // Add .active to the container
-    this.classList.add('active');
+    this.container.classList.add('active');
     // Listen for instruments keys to be pressed
-    this.addEventListener('keypress', playSound);
+    this.container.addEventListener('keypress', playSound);
     // Add active to the save button
     this.saveButton.classList.add('active');
     // Add active to the save data
@@ -124,26 +66,75 @@ class Instrument {
     this.keys.forEach(key => key.addEventListener('click', playSound));
     // Set all audio elements to preload
     this.audio.forEach((a) => (a.preload = 'auto'));
-  }
+  } // End of addActive
   // Removed .active from the instrument and all its components
   removeActive () {
     // Remove active and eventListeners from the container
-    this.classList.remove('active');
-    this.removeEventListener('keypress', playSound);
+    this.container.classList.remove('active');
+    this.container.removeEventListener('keypress', playSound);
 
     // Remove .active from saveButton
     this.saveButton.classList.remove('active');
     // Set saveButton text back to default
     this.saveButton.textContent = 'Save';
     // Set the warning flag back to false
-    isSaveOver = false;
+    this.isSaveOver = false;
     // Remove .active from the key container
     this.keys[0].parentElement.classList.remove('active');
     // Add event listeners from each key
     this.keys.forEach(key => key.removeEventListener('click', playSound));
     // Remove .active from savedData
     this.savedData.classList.remove('active');
-  }
+  } // End of removeActive
+  // Return a true if instrument is active
+  // Return false if instrument isn't
+  isActive () {
+    return this.container.classList.contains('active');
+  } // End of isActive
+  // Saves recording data to localStorage
+  save () {
+    // If localStorage isn't supported stop function now
+    if (!checkStorage()) { return };
+
+    // If user is still recording then
+    if (isRecording) {
+      // Display a message to the user
+      this.saveText.innerHTML = 'Finish recording first.';
+      addActive(this.saveText);
+      return;
+    }
+
+    // If recording exists
+    if (this.recording.length > 0) {
+      // If this is the first click of the save button
+      if (!this.isSaveOver && localStorage[this.recordingType] !== undefined) {
+        this.isSaveOver = true;
+        this.saveButton.textContent = 'Save over?';
+        return;
+      } else if (this.isSaveOver) {
+        this.isSaveOver = false;
+        this.saveButton.textContent = 'Save'
+      }
+
+      // Save recording as a JSON object in order to parse correctly later
+      let recording = '['
+      this.recording.forEach(node => {
+        recording += `{ "button":"${node.button}" , "timestamp":"${node.timestamp}" , "start":"${node.start}" },`
+      });
+      recording = recording.substring(0, recording.length - 1);    // Take off last comma so it doesn't effect json.parse
+      recording += ' ]';
+      localStorage[this.recordingName] = recording;
+      // Display save message
+      this.saveText.innerHTML = 'Saved.';
+      addActive(this.saveText);
+      // Refresh saved data so it displays in instrument
+      this.refreshSavedData();
+    } else {
+      // Display save message
+      this.saveText.innerHTML = 'You haven\'t recorded anything yet';
+      addActive(this.saveText);
+    }
+  } // End of save
   // Refreshes the savedData of the instrument
   refreshSavedData () {
     // If recording exists
@@ -162,35 +153,132 @@ class Instrument {
         savedDisplay.innerHTML = `<li>${date}</li>`;
       }
     }
-  }
+  } // End of refreshSavedData
   // Saves each event as a recordNode and pushes it to recording
   record (button, timestamp) {
     // Create a RecordNode
     const node = new RecordNode(button.dataset.key, timestamp);
     // Save it in recording
     this.recording.push(node);
+  } // End of record
+  // Set's a timeout for each node so that it plays at the correct time and plays it
+  playRecording () {
+    // If recording doesn't exist then return early
+    if (!localStorage[this.recordingName]) { return }
+    // Parse the localStorage to an object
+    const recording = JSON.parse(localStorage[this.recordingName]);
+    // Disable the button early
+    playButton.disabled = true;
+    // Set a timeout for each node of the recording array
+    recording.forEach(node => {
+      setTimeout(function () {
+        // Disable the button on the beginning of each node -
+        // so the button continues to be disabled even if a shorter recording -
+        // has ended
+        playButton.disabled = true;
+        // Get audio element of current node
+        let audio = this.audio.querySelector(`audio[data-key="${node.button}"]`)
+        // Reset audio.currentTime to 0. This allows us to play sounds without waiting for currently playing sound to end
+        audio.currentTime = 0;
+        // play audio
+        audio.play();
+        // If this is the last node to play, set isRecording to false
+        if (node === this.recording[this.recording.length - 1]) {
+          playButton.disabled = false;
+        }
+      }, (node.timestamp - node.start));
+    });
+  } // End of playRecording
+
+} // End of class Instrument
+
+// RecordNode holds the button and timestamp info
+// I'll use this to determine when to play what during playback
+class RecordNode {
+  constructor (button, timestamp) {
+    this.button = button;
+    this.timestamp = timestamp;
+    this.start = startRecording;
   }
 }
 
+const instruments = [                                  // Allows me to cycle through instruments to see which one is active
+  new Instrument('drums'),
+  new Instrument('guitar'),
+  new Instrument('bass')
+];
+
+console.log(instruments);
+
+// Recording
+const recordButton = document.getElementById('record-btn');     // Record Button
+const playButton = document.getElementById('play-btn');         // Play Button
+let isRecording = false;                                // Used to stop countdown early if user clicks record again
+let startRecording = Date.now();                        // Used to make the beginning of each recording
+
+// Forget
+const forgetButton = document.getElementById('forget-btn');          // 'Forget about me' button
+let isForget = false;                                                // Used to display a warning message on forgetButton
+
+// Tempo
+const tempoSlider = document.getElementById('tempo');                // Tempo slider
+const minTempo = 1000;                                               // The largest delay time between metronome interval
+let tempo = minTempo - parseInt(tempoSlider.value);                  // The current tempo as displayed on tempoSlider
+
+// ----------------------- APP ----------------------- /*
+// Plays the sound connected to the event
+function playSound (e) {
+  // Find active instrument
+  const instrument = instruments.find((inst) => {
+    if (inst.isActive()) {
+      return inst;
+    };
+  });
+  // If no instruments are active, return early
+  if (!instrument) { return }
+  // Get button. Adjust the querySelector depending on event type
+  let button = (e.type !== 'keypress') ? e.srcElement : instrument.querySelector(`button[data-key="${e.keyCode}"]`);
+  // Return if button is null
+  if (!button) {
+    return;
+  }
+  // Return if buttons parent is active
+  if (!button.parentElement.classList.contains('active')) {
+    return;
+  }
+  // If isRecording, send button and timestamp data to record()
+  if (isRecording) {
+    instrument.record(button, Date.now());
+  }
+  // Get audio with corresponding data-key
+  let audio = instrument.audio.querySelector(`audio[data-key="${button.dataset.key}"]`)
+  // Reset audio.currentTime to 0. This allows us to play sounds without waiting for currently playing sound to end
+  audio.currentTime = 0;
+  // play audio
+  audio.play();
+  // add .playing to button
+  button.classList.add('playing');
+  // remove .playing on transitionend
+  button.addEventListener('transitionend', function () {
+    button.classList.remove('playing');
+  });
+} // End of playSound
+
+// ----------------------------------- Utility ----------------------------
+
 // Removes .active and transitionend event listeners from the element that is passed in
-function removeActive (element) {
+function removeActive (e) {
   // Set element to the events srcElement
-  element = element.srcElement;
+  const element = element.srcElement;
   // Remove active on basic element
   element.classList.remove('active');
   // Remove event listener to prevent event from being fired multiple times
   element.removeEventListener('transitionend', removeActive);
 }
 
-/* This was in addActive. Not sure why it was there
-if (checkStorage()) {
-// Cycle through all instruments and refresh their saved data
-instruments.forEach((instrument) => {
-refreshSavedData(instrument);
-});
-*/
 // Adds .active and transitionend eventListeners to the element that is passed in
-function addActive (element) {
+function addActive (e) {
+  const element = e.srcElement;
   // start button transition via css
   element.classList.add('active');
   // listen for button css transition end
@@ -205,44 +293,6 @@ function checkStorage () {
     console.log('Local Storage is not supported.');
     return false;
   }
-}
-
-// ---------------------------- RECORDING ------------------------ //
-// RecordNode holds the button and timestamp info
-// I'll use this to determine when to play what during playback
-class RecordNode {
-  constructor (button, timestamp) {
-    this.button = button;
-    this.timestamp = timestamp;
-    this.start = startRecording;
-  }
-}
-
-// Set's a timeout for each node so that it plays at the correct time and plays it
-function playRecording (recording, type) {
-  // Disable the button early
-  playButton.disabled = true;
-  // Get the element of the instrument to be played
-  let element = document.getElementById(type);
-  // Set a timeout for each node of the recording array
-  recording.forEach(node => {
-    setTimeout(function () {
-      // Disable the button on the beginning of each node -
-      // so the button continues to be disabled even if a shorter recording -
-      // has ended
-      playButton.disabled = true;
-      // Get audio element of current node
-      let audio = element.querySelector(`audio[data-key="${node.button}"]`)
-      // Reset audio.currentTime to 0. This allows us to play sounds without waiting for currently playing sound to end
-      audio.currentTime = 0;
-      // play audio
-      audio.play();
-      // If this is the last node to play, set isRecording to false
-      if (node === recording[recording.length - 1]) {
-        playButton.disabled = false;
-      }
-    }, (node.timestamp - node.start));
-  });
 }
 
 function playMetronome () {
@@ -332,94 +382,10 @@ function handleRecordClick () {
 // Check's if anything is stored in localStorage and plays it if it is.
 function handlePlayClick () {
   if (checkStorage()) {                        // If localStorage is accessable
-    // Check for Drums
-    if (localStorage.drumsRecording) {                          // If there is a recording saved in localStorage
-      playRecording(JSON.parse(localStorage.drumsRecording), 'drums');   // Parse the storage and send it to playRecording
-    } else if (drumsRecording.length > 0) {
-      playRecording(drumsRecording, 'drums');                            // If there is a recording in memory play that
-    }
-
-    // Check for guitar
-    if (localStorage.guitarRecording) {                          // If there is a recording saved in localStorage
-      playRecording(JSON.parse(localStorage.guitarRecording), 'guitar');   // Parse the storage and send it to playRecording
-    } else if (guitarRecording.length > 0) {
-      playRecording(guitarRecording, 'guitar');                            // If there is a recording in memory play that
-    }
-
-    // Check for bass
-    if (localStorage.bassRecording) {                          // If there is a recording saved in localStorage
-      playRecording(JSON.parse(localStorage.bassRecording), 'bass');   // Parse the storage and send it to playRecording
-    } else if (bassRecording.length > 0) {
-      playRecording(guitarRecording, 'bass');                            // If there is a recording in memory play that
-    }
-  }
-}
-
-function handleSaveClick (e) {
-  // If localStorage isn't supported stop function now
-  if (!checkStorage()) { return };
-
-  const instrument = e.srcElement.parentElement.parentElement;
-  const saveText = instrument.querySelector('.save-text');
-
-  // If user is still recording then
-  if (isRecording) {
-    // Display a message to the user
-    saveText.innerHTML = 'Finish recording first.';
-    addActive(saveText);
-    return;
-  }
-
-  let recordingType;
-  let localStorageType;
-  // Get recording type
-  switch (e.srcElement.parentElement.parentElement.id) {
-    case 'drums':
-      recordingType = drumsRecording;
-      localStorageType = 'drumsRecording';
-      break;
-    case 'guitar':
-      recordingType = guitarRecording;
-      localStorageType = 'guitarRecording';
-      break;
-    case 'bass':
-      recordingType = bassRecording;
-      localStorageType = 'bassRecording';
-      break;
-    default:
-      console.log('Error: Incorrect recording type in handleSaveClick');
-      break;
-  }
-
-  // If recording exists
-  if (recordingType.length > 0) {
-    // If this is the first click of the save button
-    if (!isSaveOver && localStorage[localStorageType] !== undefined) {
-      isSaveOver = true;
-      e.srcElement.textContent = 'Save over?';
-      return;
-    } else if (isSaveOver) {
-      isSaveOver = false;
-      e.srcElement.textContent = 'Save'
-    }
-
-    // Save recording as a JSON object in order to parse correctly later
-    let recording = '['
-    recordingType.forEach(node => {
-      recording += `{ "button":"${node.button}" , "timestamp":"${node.timestamp}" , "start":"${node.start}" },`
-    });
-    recording = recording.substring(0, recording.length - 1);    // Take off last comma so it doesn't effect json.parse
-    recording += ' ]';
-    localStorage[localStorageType] = recording;
-    // Display save message
-    saveText.innerHTML = 'Saved.';
-    addActive(saveText);
-    // Refresh saved data so it displays in instrument
-    refreshSavedData(instrument);
-  } else {
-    // Display save message
-    saveText.innerHTML = 'You haven\'t recorded anything yet';
-    addActive(saveText);
+    // Play recording in each instrument
+    instruments.forEach((instrument) => {
+      instrument.playRecording();
+    })
   }
 }
 
@@ -448,19 +414,16 @@ function handleTempoChange () {
   tempo = minTempo - parseInt(tempoSlider.value);
 }
 
-// App event Listeners
-drummer.addEventListener('click', toggleActive);    // Listen for drums to be clicked
-guitarist.addEventListener('click', toggleActive);   // Listen for guitar to be clicked
-bassist.addEventListener('click', toggleActive);     // Listen for bass to be clicked
-window.addEventListener('keypress', playSound);   // Listen for ANY key to be pressed
-
-// Recording event listeners
-recordButton.addEventListener('click', handleRecordClick);
-playButton.addEventListener('click', handlePlayClick);
-saveButtons.forEach(button => button.addEventListener('click', handleSaveClick));
-
-// Forget button event listeners
-forgetButton.addEventListener('click', handleForgetClick);     // Listen for forgetButton to be clicked
-
-// Tempo Slider event listeners
-tempoSlider.addEventListener('change', handleTempoChange);    // Listen for tempoSlider changes
+// Add event listeners for the instruments
+instruments.forEach((instrument) => {
+  // Activate instrument if its image is clicked
+  instrument.musician.addEventListener('click', instrument.toggleActive)
+  // Save data if button is clicked
+  instrument.saveButton.addEventListener('click', instrument.save);
+});
+// Add event listeners for the app
+window.addEventListener('keypress', playSound);                 // Listen for ANY key to be pressed
+recordButton.addEventListener('click', handleRecordClick);      // Listen for recordButton
+playButton.addEventListener('click', handlePlayClick);          // Listen for playButton
+forgetButton.addEventListener('click', handleForgetClick);      // Listen for forgetButton to be clicked
+tempoSlider.addEventListener('change', handleTempoChange);      // Listen for tempoSlider changes
