@@ -29,8 +29,8 @@ class Instrument {
     // Used to display a warning message on the save button
     this.isSaveOver = false;
   } // End of constructor
+
   toggleActive () {
-    console.log('toggleActive');
     // If instrument isn't active then add active class
     if (!this.container.classList.contains('active')) {
       // Set the flag used to determine if sounds should play to true
@@ -46,6 +46,7 @@ class Instrument {
     // Remove .active from all other instruments
     others.forEach((instrument) => instrument.removeActive());
   } // End of toggleActive
+
   // Add .active from the instrument and all its components
   addActive () {
     // Add .active to the container
@@ -68,6 +69,7 @@ class Instrument {
       this.refreshSavedData();
     }
   } // End of addActive
+
   // Removed .active from the instrument and all its components
   removeActive () {
     // Remove active and eventListeners from the container
@@ -87,11 +89,11 @@ class Instrument {
     // Remove .active from savedData
     this.savedData.classList.remove('active');
   } // End of removeActive
+
   // Saves recording data to localStorage
   save () {
     // If localStorage isn't supported stop function now
     if (!checkStorage()) { return };
-
     // If user is still recording then
     if (isRecording) {
       // Display a message to the user
@@ -99,7 +101,6 @@ class Instrument {
       addActive(this.saveText);
       return;
     }
-
     // If recording exists
     if (this.recording.length > 0) {
       // If this is the first click of the save button
@@ -111,7 +112,6 @@ class Instrument {
         this.isSaveOver = false;
         this.saveButton.textContent = 'Save'
       }
-
       // Save recording as a JSON object in order to parse correctly later
       let recording = '['
       this.recording.forEach(node => {
@@ -131,6 +131,7 @@ class Instrument {
       addActive(this.saveText);
     }
   } // End of save
+
   // Refreshes the savedData of the instrument
   refreshSavedData () {
     // If recording exists
@@ -150,6 +151,13 @@ class Instrument {
       }
     }
   } // End of refreshSavedData
+
+  // Clears old recording if it is not saved
+  clearRecording () {
+    console.log('clearing recording');
+    this.recording = [];
+  }
+
   // Saves each event as a recordNode and pushes it to recording
   record (button, timestamp) {
     // Create a RecordNode
@@ -157,6 +165,7 @@ class Instrument {
     // Save it in recording
     this.recording.push(node);
   } // End of record
+
   // Set's a timeout for each node so that it plays at the correct time and plays it
   playRecording () {
     // If recording doesn't exist then return early
@@ -201,7 +210,8 @@ class RecordNode {
   }
 }
 
-const instruments = [                                  // Allows me to cycle through instruments to see which one is active
+// Instruments
+const instruments = [
   new Instrument('drums'),
   new Instrument('guitar'),
   new Instrument('bass')
@@ -210,8 +220,8 @@ const instruments = [                                  // Allows me to cycle thr
 // Recording
 const recordButton = document.getElementById('record-btn');     // Record Button
 const playButton = document.getElementById('play-btn');         // Play Button
-let isRecording = false;                                // Used to stop countdown early if user clicks record again
-let startRecording = Date.now();                        // Used to make the beginning of each recording
+let isRecording = false;                                        // Used to stop countdown early if user clicks record again
+let startRecording = Date.now();                                // Used to make the beginning of each recording
 
 // Forget
 const forgetButton = document.getElementById('forget-btn');          // 'Forget about me' button
@@ -222,7 +232,7 @@ const tempoSlider = document.getElementById('tempo');                // Tempo sl
 const minTempo = 1000;                                               // The largest delay time between metronome interval
 let tempo = minTempo - parseInt(tempoSlider.value);                  // The current tempo as displayed on tempoSlider
 
-// ----------------------- APP ----------------------- /*
+// ----------------------- Global Functions ----------------------- /*
 // Plays the sound connected to the event
 function playSound (e) {
   // Find active instrument
@@ -260,8 +270,6 @@ function playSound (e) {
     button.classList.remove('playing');
   });
 } // End of playSound
-
-// ----------------------------------- Utility ----------------------------
 
 // Removes .active and transitionend event listeners from the element that is passed in
 function removeActive (e) {
@@ -326,7 +334,7 @@ function handleRecordClick () {
     }
     return;
   }
-  // If isRecording then remove all classLists and events
+  // If user is already recording then remove all classLists and events
   if (isRecording) {
     // Remove active class and reset button text
     recordButton.classList.remove('active');
@@ -334,6 +342,9 @@ function handleRecordClick () {
     isRecording = false;
     return;
   }
+  // Clear all old recordings that aren't saved
+  instruments.forEach((instrument) => instrument.clearRecording());
+
   // Play countdown before recording
   // Get controls div
   let controls = document.querySelector('.controls');
@@ -364,12 +375,15 @@ function handleRecordClick () {
     } else {
       // Play last countdown
       audio[audio.length - 1].play();
-      // If i is 0, set record to active
+      // If this is the last countdown audio clip, set recordButton to active
       recordButton.classList.remove('primed');
       recordButton.classList.add('active');
       recordButton.textContent = 'Stop';
+      // Set startRecording to now
       startRecording = Date.now();
+      // Set isRecording to true
       isRecording = true;
+      // Play the metronome
       setTimeout(playMetronome(), tempo);
       // Stop countdown
       clearInterval(countdown);
@@ -377,9 +391,9 @@ function handleRecordClick () {
   }, tempo);            // User the tempo slider to determine the countdown speed
 }
 
-// Check's if anything is stored in localStorage and plays it if it is.
+// Calls playRecording on each instrument if localStore is available
 function handlePlayClick () {
-  if (checkStorage()) {                        // If localStorage is accessable
+  if (checkStorage()) {
     // Play recording in each instrument
     instruments.forEach((instrument) => {
       instrument.playRecording();
@@ -391,7 +405,9 @@ function handlePlayClick () {
 // Removes username and all recordings from localStorage if isForget is true
 function handleForgetClick (e) {
   if (isForget) {
+    // Remove localStorage of each instrument recordingName
     instruments.forEach((instrument) => localStorage.removeItem(instrument.recordingName));
+    // Reload page
     location.reload();
     return;
   }
