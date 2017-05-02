@@ -249,7 +249,7 @@ function playSound (e) {
   if (!button) {
     return;
   }
-  // Return if buttons parent is active
+  // Return if buttons parent isn't active
   if (!button.parentElement.classList.contains('active')) {
     return;
   }
@@ -258,7 +258,7 @@ function playSound (e) {
     instrument.record(button, Date.now());
   }
   // Get audio with corresponding data-key
-  let audio = instrument.container.querySelector(`audio[data-key="${button.dataset.key}"]`)
+  let audio = instrument.container.querySelector(`audio[data-key="${button.dataset.key}"]`);
   // Reset audio.currentTime to 0. This allows us to play sounds without waiting for currently playing sound to end
   audio.currentTime = 0;
   // play audio
@@ -344,7 +344,6 @@ function handleRecordClick () {
   }
   // Clear all old recordings that aren't saved
   instruments.forEach((instrument) => instrument.clearRecording());
-
   // Play countdown before recording
   // Get controls div
   let controls = document.querySelector('.controls');
@@ -368,10 +367,10 @@ function handleRecordClick () {
     if (i > 0) {
       // Pulse button
       pulse();
+      // Set text on button
       recordButton.textContent = i;
       // Play countdown audio
       audio[audioi].play();
-      // Play metronome
     } else {
       // Play last countdown
       audio[audio.length - 1].play();
@@ -391,7 +390,7 @@ function handleRecordClick () {
   }, tempo);            // User the tempo slider to determine the countdown speed
 }
 
-// Calls playRecording on each instrument if localStore is available
+// Calls playRecording on each instrument
 function handlePlayClick () {
   if (checkStorage()) {
     // Play recording in each instrument
@@ -401,8 +400,8 @@ function handlePlayClick () {
   }
 }
 
-// Displays warning message if isForget is false
-// Removes username and all recordings from localStorage if isForget is true
+// Displays warning message on first click
+// Removes username and all recordings from localStorage on second click
 function handleForgetClick (e) {
   if (isForget) {
     // Remove localStorage of each instrument recordingName
